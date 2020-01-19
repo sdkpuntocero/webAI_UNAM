@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","Ө                                                                                           Ө = tg Ө                                                                                              Ө","","","","y         x                                                              y         x","y         x","",""];

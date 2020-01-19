@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","","FORM ULA                                         Q                          Ce =                                  m (T - T )"];

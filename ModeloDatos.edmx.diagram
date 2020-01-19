@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9a1c2ddd124e49bfb3286f026f84689d" Name="Diagram1">
+        <EntityTypeShape EntityType="imDesarrolloModel.catAreas" Width="1.5" PointX="11.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catBusquedaUsuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catGenero" Width="1.5" PointX="11.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catPerfiles" Width="1.5" PointX="11.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catTipoEgresos" Width="1.5" PointX="13.5" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catTipoRFC" Width="1.5" PointX="5.25" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catTipoUsuarios" Width="1.5" PointX="11.25" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblAreasPerfil" Width="1.5" PointX="13.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblCentro" Width="1.5" PointX="7.5" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblClientes" Width="1.5" PointX="10.5" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblContactoProveedores" Width="1.5" PointX="9.75" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblContactosCliente" Width="1.5" PointX="12.75" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblContactosProspecto" Width="1.5" PointX="12.75" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblCorporativo" Width="1.5" PointX="5.25" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblCorreoNotificacion" Width="1.5" PointX="7.5" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblEgresos" Width="1.5" PointX="15.75" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblFiscales" Width="1.5" PointX="10.5" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblMediosDeContacto" Width="1.5" PointX="8.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblMexCP" Width="1.5" PointX="0.75" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblProductos" Width="1.5" PointX="9.75" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblProductosCategoria" Width="1.5" PointX="7.5" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblProspectos" Width="1.5" PointX="10.5" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblProveedores" Width="1.5" PointX="7.5" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblUbicaciones" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblUsuarios" Width="1.5" PointX="13.5" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.tblUsuariosCentros" Width="1.5" PointX="9.75" PointY="41.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateria" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateriaTema" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateriaTemaPregunta" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateriaTemaPreguntaRespuesta" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateriaTemaPreguntaRespuestaBitacora" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="imDesarrolloModel.catMateriaTemaSintesis" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblAreasPerfil_catAreas" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_catGenero" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblAreasPerfil_catPerfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_catPerfiles" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblEgresos_catTipoEgresos" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblFiscales_catTipoRFC" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProspectos_catTipoRFC" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProveedores_catTipoRFC" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_catTipoUsuarios" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblCentro_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblCentro_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblEgresos_tblCentro" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuariosCentros_tblCentro" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblClientes_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblClientes_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblContactosCliente_tblClientes" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblContactoProveedores_tblProveedores" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblContactosProspecto_tblProspectos" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblCorporativo_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblCorreoNotificacion_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblFiscales_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProductosCategoria_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProspectos_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProveedores_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_tblCorporativo" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProspectos_tblMediosDeContacto" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUbicaciones_tblMexCP" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProductos_tblProductosCategoria1" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProspectos_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblProveedores_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_tblUbicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="imDesarrolloModel.FK_tblUsuarios_tblUbicaciones1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","","1          2                     FORM ULA           Ec  =       mv                                                2                                    FORM ULA  Ep = m g h                                  FORM ULA  Em  = Ec  + Ep",""];

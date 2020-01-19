@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","FORM ULA                          F =","FORM ULA                              I =    V                                   R","b) Hallar  la  intensidad  de  corriente que c irc ula por  un  tostador eléc tric o de 8 Ω de",""];

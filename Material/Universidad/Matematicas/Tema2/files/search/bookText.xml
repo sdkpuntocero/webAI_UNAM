@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Search><pages Count="7"><page Index="1"><![CDATA[pr o duct o s no t abl es
+
+
+
+
+                                                           y
+
+
+
+                                  f act o r iz ació n]]></page><page Index="2"><![CDATA[sidad
+
+      a univer  Son aquellos produc tos que se resuelven c on la ayuda de reglas que evitan efec tuar
+                                                                                                        Pr epar ació n de ex ámenes
+
+
+       aul  todo el produc to se c onoc en como produc tos notables.
+
+      icas  -  Binomios al cuadrado
+
+
+      emát  Al elevar un binomio al cuadrado se obtiene un trinomio cuadrado perfec to.
+
+      mat
+             “ Se eleva al cuadrado el primer término, se suma el doble produc to del primer térmi-
+                         no por el segundo y se suma el cuadrado del segundo término”
+
+                                                                            2
+                                                       2
+                                           2
+                                      2
+                               (x + y)  = x  + 2xy + y                     (x - y)  = x  - 2xy + y 2
+                                                                                 2
+            Ejemplo: El desarrollo de (m + 5)  es:
+                                                 2
+            El c uadrado del primer término: (m)  = m       2
+                                                      2
+            El doble producto del primer término por el segundo: 2(m)(5) = 10m
+            El c uadrado del segundo término (5)       2
+
+
+            Se realiza entonc es la suma de los términos, entonces:
+
+                                                              2
+                                                        2
+                                                (m + 5)  = m  + 10m + 25
+            Binomios conjugados: Son los que tienen los mismos elementos, pero uno de ellos de
+            signo c ontrario y su resultado es una diferencia de cuadrados.
+
+
+                                                  (x + y)(x - y) = x  - y 2
+                                                                     2
+
+                “ Se eleva al c uadrado el primer término y se resta el cuadrado del término que
+                                                    c ambia de signo”
+
+
+            Ejemplo: El desarrollo de (b + 8)(b - 8) es:
+
+            Se eleva al c uadrado el primer término: (b)  = b       2
+                                                               2
+            Se eleva al c uadrado el término que c ambia de signo: (8)  = 64
+                                                                                2
+            Se realiza la diferencia de ambos términos: b  - 64
+                                                                 2
+
+            Binomios  con  término  común:  Son  aquellos  que  se  encuentran  en  un  produc to  y
+            ambos tienen un término que se repite.
+
+                “ Se eleva al cuadrado el término c omún, se suman los términos no c omunes, se
+               multiplican por el término en común y se suma el produc to de los dos términos no
+                                                        comunes”
+
+                                           (x + a)(x + b) = x  + (a + b)x + ab
+                                                              2
+
+
+
+
+
+
+
+                                                             1]]></page><page Index="3"><![CDATA[sidad
+
+      a univer  Ejemplo: El desarrollo de (x + 8)(x + 5) es:                                            Pr epar ació n de ex ámenes
+
+
+
+       aul                       (x + 8)(x + 5) = (x)  + (8 + 5)x + (8)(5) = x  + 13x + 40
+                                                                              2
+                                                     2
+      icas  -
+
+      emát  Binomio al cubo: Este tipo de binomio es de la forma:
+
+                                                                2
+                                                                         2
+                                                     3
+                                                          3
+      mat                                    (x + y)  = x  + 3x y + 3xy  + y  3
+                “ El c ubo del primer término, más el triple del c uadrado del primer término por el
+               segundo, más el triple produc to del primer término por el c uadrado del segundo,
+                                          más el c ubo del segundo término”
+
+            Ejemplo: El desarrollo de (a + 2)  es:
+                                                 3
+
+              (a + 2)  = (a)  + 3(a) (2) + 3(a)(2)  + (2)  = a  + 3a (2) + 3a(4) + (8) = a  + 6a  + 12a + 8
+                     3
+                                                               3
+                                                         2
+                                                                                                   2
+                            3
+                                                                                            3
+                                                   2
+                                                                     2
+                                    2
+                                             BINOMIO DE NEWTON
+            Desarrollo de (a + b)       n
+
+                    0
+            (a + b)  = 1
+            (a + b)  = 1a + 1b
+                    1
+                           2
+                    2
+            (a + b)  = 1a  + 2ab + 162
+            (a + b)  = 1a  + 3a b + 3ab  + 1b     3
+                    3
+                                 2
+                           3
+                                           2
+            (a + b)  = 1a  + 4a b + 6a b  + 4ab  +1b      4
+                                                    3
+                           4
+                                         2
+                                 3
+                                            2
+                    4
+                                                 Triángulo de Pascal
+                                                             1
+                                                            1   1
+                                                          1   2   1
+                                                        1   3   3   1
+                                                       1   4   6   4   1
+            Factorizac ión
+
+
+            Factor común
+
+
+            Para obtener el factor común de un polinomio, se obtiene el máximo c omún divisor de
+            los coefic ientes y la literal o literales con menor exponente que se repite en cada uno
+            de los términos algebraic os del polinomio a fac torizar.
+
+
+
+
+
+
+
+
+                                                              2]]></page><page Index="4"><![CDATA[sidad
+
+      a univer  Ejemplo: Una expresión equivalente a 3x  + 6x es:                                       Pr epar ació n de ex ámenes
+
+                                                           2
+       aul  Se obtiene el MCD de los coefic ientes 3 y 6, el cual es 3.
+
+      icas  -  La literal que se repite en los términos del polinomio de menor exponente es x.
+
+      emát  El factor común es 3x.                                                               3x 2      6x  = 2
+            Se divide c ada uno de los elementos del polinomio por el fac tor común:        = x ;
+                                                                                                  3x
+                                                                                                           3x
+      mat   La factorización es:
+                                                    3x  + 6x = 3x(x + 2)
+                                                      2
+            Factor común por agrupación: Los términos del polinomio a factorizar se agrupan c on-
+            forme aquellos que tengan un fac tor en común, de modo que la nueva expresión se
+            pueda factorizar.
+
+
+                                                           2
+            Ejemplo: Una expresión equivalente a m  + mp + mx + px es:
+            Los términos del polinomio se agrupan:
+
+
+                                     m  + mp + mx + px = (m  + mp) + (mx + px)
+                                                                 2
+                                        2
+            Cada una de las nuevas expresiones se fac torizan por fac tor c omún:
+
+
+                                                  m(m +  p) + x(m + p)
+
+
+            Diferencia de cuadrados
+
+
+            Una diferenc ia de cuadrados tiene la forma x  - y  y su factorización es el produc to de
+                                                                 2
+                                                                     2
+            binomios c onjugados:
+                                                2
+            Ejemplo: La factorización de 4x  - 9 es:
+
+            Se obtiene la raíz de c ada uno de los elementos del binomio:
+
+                                                  √4x  = 2x          √9 = 3
+                                                      2
+
+            Se agrupan en forma de binomios c onjugados:
+
+
+                                                      (2x + 3)(2x - 3)
+
+            Trinomio cuadrado perfecto
+
+
+            Un trinomio c uadrado perfec to es el resultado del desarrollo de un binomio al cuadra-
+            do.
+
+                                                  x  ± 2xy + y  = (x ± y) 2
+                                                               2
+                                                   2
+
+
+
+
+                                                              3]]></page><page Index="5"><![CDATA[sidad
+
+      a univer  Ejemplo: Al factorizar m  + 12m + 36, se obtiene:                                       Pr epar ació n de ex ámenes
+
+                                        2
+       aul  Se ordenan los términos del trinomio en forma desc endiente respecto a una de las
+
+      icas  -  variables, de manera que en los extremos se enc uentren expresiones c on raíz c uadra-
+
+      emát  da exacta:
+
+                                                        2
+      mat                                             m  + 12m + 36
+            Se obtienen la raíz del 1  y 3  términos:
+                                             er
+                                        er
+                                              √m  = m          y          √36 = 6
+                                                  2
+            Se realiza el doble producto de las raíc es obtenidas:
+
+
+                                                      2(m)(6) = 12m
+
+            Si el resultado c oincide c on el término central del trinomio, entonc es es un trinomio
+            cuadrado perfec to. Por último se agrupan las raíces en un binomio al c uadrado y se
+            coloca el signo del término central (+):
+
+
+                                                          (m + 6) 2
+
+            Trinomio de la forma x  + bx + c: El trinomio de la forma x  + bx + c  se obtiene al desarro-
+                                                                            2
+                                     2
+            llar el producto de dos binomios c on término c omún.
+            Ejemplo: Una expresión equivalente ax  + 7x + 12 es:
+                                                         2
+
+                                                        x  + 7x + 12
+                                                         2
+
+            Se obtienen la raíz cuadrada del término cuadrático, a c ual se coloc a en dos bino-
+            mios:
+
+
+                                                 x  + 7x + 12 = (x    )(x    )
+                                                  2
+            El primer binomio lleva el signo del segundo término del trinomio (+) y el segundo
+            binomio lleva el producto de los signos del segundo y el terc er términos del trinomio
+            (+)(+) = +
+
+
+                                               x  + 7x + 12 = (x +    )(x +    )
+                                                2
+            Se buscan dos números cuyo produc to sea igual al terc er término del trinomio (12) y su
+            suma aritmétic a sea el c oeficiente del segundo término (7): (4)(3) = 12 y 4 + 3 = 7, los
+            números son 4 y 3.
+
+                                               x  + 7x + 12 = (x + 4)(x + 3)
+                                                2
+
+            Nota: De los números encontrados se c oloc a el mayor en el primer binomio y el menor
+            en el segundo binomio.
+
+
+                                                              4]]></page><page Index="6"><![CDATA[sidad
+
+      a univer  Trinomio de la forma ax  + bx + c:                                                      Pr epar ació n de ex ámenes
+
+                                        2
+       aul  Ejemplo: Una expresión equivalente 2x  + 3x + 1 es:
+                                                         2
+      icas  -
+
+      emát  Se multiplic a y se divide la expresión por el c oeficiente del término c uadrátic o:
+
+                                                                   2
+      mat                                     2x  + 3x + 1 =  2(2x  + 3x + 1)
+                                                2
+                                                                     2
+                                          er
+                                     er
+            Se multiplic a sólo el 1  y 3  términos de la expresión:
+                                                      4x  + 3(2x) + 1
+                                                         2
+                                                             2
+            Se realizan los pasos para fac torizar un trinomio de la forma x  + bx + c :
+                                                                                   2
+                                   (2x +   )(2x +   )  =                            (x + 1)(2x + 1)
+                                                        (2x + 2)(2x + 1)
+                                           2                   2
+
+            Suma y diferencia de cubos
+
+
+            Son de la forma:
+
+
+                           x  + y  = (x + y)(x  - xy + y )     ;     x  - y  = (x - y)(x  + xy + y )
+                                                                        3
+                                                                                     2
+                                                                                               2
+                                                         2
+                                                                   .3
+                                 3
+                            3
+                                               2
+                                                           3
+            Ejemplo: Una expresión equivalente a (a  + 8) es:
+            Se obtienen las raíces c úbicas de c ada uno de los términos
+                                                      3
+                                                  3 √a = a     ;      √8 = 2
+                                                                  3
+            Por consiguiente, a  + 8 = (a + 2)(a  - 2a + 2 ) = (a + 2)(a  - 2a + 4)
+                                  3
+                                                                             2
+                                                    2
+                                                              2
+                                 TEOREMA DEL RESIDUO Y DEL FACTOR
+
+
+            Sea el polinomio f(x) = a x  + a      x  + ... + a  y el binomio bx + c , entonces:
+                                                   n-1
+                                          n
+                                        n      n-1            0
+                                                 c
+            a) bx + c  es factor de f(x) si f   -       = 0
+                                                 b
+                                                    c
+            b) bx + c  no es factor de f(x) si f  -       = k, con k ≠ 0, donde k en el residuo del c oc iente
+                                                    b
+                                                c
+            de f(x) c on bx + c , asimismo, -       resulta de resolver la ecuación bx + c = 0
+                                                b
+
+
+
+
+
+
+
+
+
+
+
+                                                              5]]></page><page Index="7"><![CDATA[sidad  sidad
+
+      a univer  a univer  SIMPLIFICACIÓN DE FRACCIONES ALGEBRAICAS                                      Pr epar ació n de ex ámenes
+                                                                                                        Pr epar ació n de ex ámenes
+
+
+       aul   aul
+
+      icas  -  icas  -  Dada una fracción algebraic a expresarla en su forma más simple.
+                                                       2 3
+                                                     3x y
+      mat emát  emát  mat  Ejemplo: Al simplificar la expresión           se obtiene:
+                                                     6x y
+                                                       2
+            Por tratarse de monomios se simplific an los coefic ientes y las bases iguales, y se aplica
+            la ley de los exponentes para la división:
+                                     3   1         x 4   2        y 3   2        1   2 2
+                                     6  =          ;          = x      ;          = y     =          x y
+                                                   x
+                                         2
+                                                    2
+                                                                                 2
+                                                                  y
+                         OPERACIONES CON FRACCIONES ALGEBRAICAS
+
+
+            Suma y resta
+
+
+            Se aplic a la siguiente propiedad:
+
+
+                                       a    c    ad + bc           a   c    ad - bc
+                                                                       d
+                                                                   b
+                                                    bd
+                                            d
+                                       b  +     =                    o          -     =   bd
+            Multiplicación
+                                                    a c     ac
+            Se aplic a la siguiente propiedad:           =      , el resultado se simplific a si es posible.
+                                                    b d     bd
+
+
+            División
+
+                                                    a   c    ad
+            Se aplic a la siguiente propiedad:     ÷     =      , la fracc ión resultante se simplific a de ser
+                                                             bc
+                                                        d
+                                                    b
+            posible.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                              4
+                                                              6]]></page></pages></Search>

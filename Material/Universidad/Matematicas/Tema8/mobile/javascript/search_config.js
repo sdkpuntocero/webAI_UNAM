@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","│    │","","h, k                                                    h, k                                               ≠","","h, k                                                   h, k","B                                    ≠                             B ≠"];

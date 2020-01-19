@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","","Dividen en tres tipos","Centrales hidroeléctricas:                   Centrales termoeléctricas:                   Centrales geotérmicas:                     Centrales nucleoeléctricas:","",""];

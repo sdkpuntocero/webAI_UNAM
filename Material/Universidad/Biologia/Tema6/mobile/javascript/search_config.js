@@ -1,0 +1,1 @@
+﻿var textForPages = ["","","","","Es un enlace entre el grupo         mino (–NH ) de un        minoácido y  el grupo        arboxilo                El enlace peptídic o implica la pérdida de una moléc ula de agua y la formación de"];
