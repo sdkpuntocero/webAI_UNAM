@@ -10,14 +10,11 @@
 namespace webAI_UNAM
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class tblPreguntasRespuestas_Result
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public string Materia { get; set; }
+        public Nullable<int> DiagnoticoP { get; set; }
+        public Nullable<int> CuestionarioP { get; set; }
     }
 }

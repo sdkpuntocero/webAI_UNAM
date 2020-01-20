@@ -5,15 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="imDesarrolloModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="catAreas">
-          <Key>
-            <PropertyRef Name="AreaID" />
-          </Key>
-          <Property Name="AreaID" Type="int" Nullable="false" />
-          <Property Name="Area" Type="varchar" MaxLength="50" />
-          <Property Name="EstatusRegistroID" Type="int" Nullable="false" />
-          <Property Name="FechaRegistro" Type="date" Nullable="false" />
-        </EntityType>
         <EntityType Name="catBusquedaUsuario">
           <Key>
             <PropertyRef Name="BusquedaUsuarioID" />
@@ -71,8 +62,6 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaPreguntaRespu
           <Property Name="Justificacion" Type="varchar(max)" />
           <Property Name="MateriaTemaPreguntaRespuestaID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaPreguntaRespuestaBitacora' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="catMateriaTemaPreguntaRespuestaBitacora">
           <Key>
             <PropertyRef Name="MateriaTemaPreguntaRespuestaBitacoraID" />
@@ -82,15 +71,13 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaPreguntaRespu
           <Property Name="UsuarioID" Type="uniqueidentifier" />
           <Property Name="FechaRegistro" Type="date" />
           <Property Name="MateriaTemaPreguntaID" Type="int" />
-          <Property Name="MateriaTemaPreguntaRespuestaBitacoraID" Type="int" Nullable="false" />
+          <Property Name="MateriaTemaPreguntaRespuestaBitacoraID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="catMateriaTemaSintesis">
           <Key>
             <PropertyRef Name="MateriaTemaSintesisID" />
           </Key>
-          <Property Name="MateriaTemaSintesisID" Type="int" Nullable="false" />
+          <Property Name="MateriaTemaSintesisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Sintesis" Type="varchar(max)" />
           <Property Name="UsuarioID" Type="uniqueidentifier" />
           <Property Name="FechaRegistro" Type="date" />
@@ -105,185 +92,12 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Property Name="EstatusRegistroID" Type="int" />
           <Property Name="FechaRegistro" Type="date" />
         </EntityType>
-        <EntityType Name="catTipoEgresos">
-          <Key>
-            <PropertyRef Name="TipoEgresoID" />
-          </Key>
-          <Property Name="TipoEgresoID" Type="int" Nullable="false" />
-          <Property Name="TipoEgreso" Type="varchar" MaxLength="350" Nullable="false" />
-        </EntityType>
-        <EntityType Name="catTipoRFC">
-          <Key>
-            <PropertyRef Name="TipoRFCID" />
-          </Key>
-          <Property Name="TipoRFCID" Type="int" Nullable="false" />
-          <Property Name="TipoRFC" Type="varchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="catTipoUsuarios">
           <Key>
             <PropertyRef Name="TipoUsuarioID" />
           </Key>
           <Property Name="TipoUsuarioID" Type="int" Nullable="false" />
           <Property Name="TipoUsuario" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <EntityType Name="tblAreasPerfil">
-          <Key>
-            <PropertyRef Name="AreasPerfilID" />
-          </Key>
-          <Property Name="AreaID" Type="int" Nullable="false" />
-          <Property Name="PerfilID" Type="int" Nullable="false" />
-          <Property Name="AreasPerfilID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblCentro">
-          <Key>
-            <PropertyRef Name="CentroID" />
-          </Key>
-          <Property Name="CentroID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TipoCentroID" Type="int" />
-          <Property Name="CodigoCentro" Type="varchar" MaxLength="50" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblClientes">
-          <Key>
-            <PropertyRef Name="ClientesID" />
-          </Key>
-          <Property Name="ClientesID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="TipoRFCID" Type="int" />
-          <Property Name="RFC" Type="varchar" MaxLength="15" />
-          <Property Name="CorreoPersonal" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoTrabajo" Type="varchar" MaxLength="50" />
-          <Property Name="Celular" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblContactoProveedores">
-          <Key>
-            <PropertyRef Name="ContactoProveedorID" />
-          </Key>
-          <Property Name="ContactoProveedorID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="CalleNumero" Type="varchar" MaxLength="150" />
-          <Property Name="CodigoPostal" Type="varchar" MaxLength="5" />
-          <Property Name="ColoniaID" Type="int" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="ProveedorID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblContactosCliente">
-          <Key>
-            <PropertyRef Name="ContactoClienteID" />
-          </Key>
-          <Property Name="ContactoClienteID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="CalleNumero" Type="varchar" MaxLength="150" />
-          <Property Name="CodigoPostal" Type="varchar" MaxLength="5" />
-          <Property Name="ColoniaID" Type="int" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="ClientesID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblContactosProspecto">
-          <Key>
-            <PropertyRef Name="ContactoProspectoID" />
-          </Key>
-          <Property Name="ContactoProspectoID" Type="nchar" MaxLength="10" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="CalleNumero" Type="varchar" MaxLength="150" />
-          <Property Name="CodigoPostal" Type="varchar" MaxLength="5" />
-          <Property Name="ColoniaID" Type="int" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="ProspectoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblCorporativo">
-          <Key>
-            <PropertyRef Name="CorporativoID" />
-          </Key>
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoElecronico" Type="varbinary" MaxLength="50" />
-          <Property Name="Telefono" Type="varbinary" MaxLength="50" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" Nullable="false" />
-          <Property Name="FechaRegistro" Type="date" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblCorreoNotificacion">
-          <Key>
-            <PropertyRef Name="CorreoNotificacionID" />
-          </Key>
-          <Property Name="CorreoNotificacionID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="50" />
-          <Property Name="Usuario" Type="varchar" MaxLength="50" />
-          <Property Name="Clave" Type="varchar" MaxLength="50" />
-          <Property Name="Asunto" Type="varchar" MaxLength="50" />
-          <Property Name="SMTP" Type="varchar" MaxLength="50" />
-          <Property Name="Puerto" Type="int" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblEgresos">
-          <Key>
-            <PropertyRef Name="EgresosID" />
-          </Key>
-          <Property Name="EgresosID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TipoEgresoID" Type="int" />
-          <Property Name="Descripcion" Type="varchar" MaxLength="350" Nullable="false" />
-          <Property Name="Caracteristica" Type="varchar" MaxLength="350" />
-          <Property Name="Costo" Type="money" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CentroID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblFiscales">
-          <Key>
-            <PropertyRef Name="FiscalID" />
-          </Key>
-          <Property Name="FiscalID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="TipoRFCID" Type="int" />
-          <Property Name="RFC" Type="varchar" MaxLength="15" />
-          <Property Name="CorreoPersonal" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoTrabajo" Type="varchar" MaxLength="50" />
-          <Property Name="Celular" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblMediosDeContacto">
-          <Key>
-            <PropertyRef Name="MedioDeContactoID" />
-          </Key>
-          <Property Name="MedioDeContactoID" Type="int" Nullable="false" />
-          <Property Name="MedioDeContacto" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tblMexCP">
           <Key>
@@ -305,74 +119,6 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Property Name="id_asenta_cpcons" Type="varchar" MaxLength="6" Nullable="false" />
           <Property Name="d_zona" Type="varchar" MaxLength="6" />
           <Property Name="c_cve_ciudad" Type="varchar" MaxLength="6" />
-        </EntityType>
-        <EntityType Name="tblProductos">
-          <Key>
-            <PropertyRef Name="ProductoID" />
-          </Key>
-          <Property Name="ProductoID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CodigoProducto" Type="varchar" MaxLength="50" />
-          <Property Name="ProductosCategoriaID" Type="int" Nullable="false" />
-          <Property Name="Descripcion" Type="varchar" MaxLength="350" />
-          <Property Name="Caracteristica" Type="varchar" MaxLength="350" />
-          <Property Name="Costo" Type="money" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-        </EntityType>
-        <EntityType Name="tblProductosCategoria">
-          <Key>
-            <PropertyRef Name="ProductosCategoriaID" />
-          </Key>
-          <Property Name="ProductosCategoriaID" Type="int" Nullable="false" />
-          <Property Name="ProductosCategoria" Type="varchar" MaxLength="50" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblProspectos">
-          <Key>
-            <PropertyRef Name="ProspectoID" />
-          </Key>
-          <Property Name="ProspectoID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MedioDeContactoID" Type="int" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="TipoRFCID" Type="int" />
-          <Property Name="RFC" Type="varchar" MaxLength="15" />
-          <Property Name="CorreoPersonal" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoTrabajo" Type="varchar" MaxLength="50" />
-          <Property Name="Celular" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblProveedores">
-          <Key>
-            <PropertyRef Name="ProveedorID" />
-          </Key>
-          <Property Name="ProveedorID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
-          <Property Name="TipoRFCID" Type="int" />
-          <Property Name="RFC" Type="varchar" MaxLength="15" />
-          <Property Name="CorreoPersonal" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoTrabajo" Type="varchar" MaxLength="50" />
-          <Property Name="Celular" Type="varchar" MaxLength="50" />
-          <Property Name="Telefono" Type="varchar" MaxLength="10" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" />
-          <Property Name="FechaRegistro" Type="date" />
-          <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tblUbicaciones">
-          <Key>
-            <PropertyRef Name="UbicacionID" />
-          </Key>
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="TipoUbicacionID" Type="int" />
-          <Property Name="CalleNumero" Type="varchar" MaxLength="150" />
-          <Property Name="CodigoPostal" Type="varchar" MaxLength="6" />
-          <Property Name="ColoniaID" Type="varchar" MaxLength="6" />
-          <Property Name="EstatusRegistroID" Type="int" Nullable="false" />
-          <Property Name="FechaRegistro" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="tblUsuarios">
           <Key>
@@ -397,330 +143,6 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Property Name="FechaRegistro" Type="date" Nullable="false" />
           <Property Name="CorporativoID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
-        <EntityType Name="tblUsuariosCentros">
-          <Key>
-            <PropertyRef Name="UsuarioID" />
-          </Key>
-          <Property Name="UsuarioID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TipoUsuarioID" Type="int" Nullable="false" />
-          <Property Name="PerfilID" Type="int" Nullable="false" />
-          <Property Name="CodigoUsuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Clave" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Nombres" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="GeneroID" Type="int" Nullable="false" />
-          <Property Name="CorreoPersonal" Type="varchar" MaxLength="50" />
-          <Property Name="CorreoTrabajo" Type="varchar" MaxLength="50" />
-          <Property Name="Celular" Type="varchar" MaxLength="50" />
-          <Property Name="UbicacionID" Type="int" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="int" Nullable="false" />
-          <Property Name="FechaRegistro" Type="date" Nullable="false" />
-          <Property Name="CentroID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_tblAreasPerfil_catAreas">
-          <End Role="catAreas" Type="Self.catAreas" Multiplicity="1" />
-          <End Role="tblAreasPerfil" Type="Self.tblAreasPerfil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catAreas">
-              <PropertyRef Name="AreaID" />
-            </Principal>
-            <Dependent Role="tblAreasPerfil">
-              <PropertyRef Name="AreaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblAreasPerfil_catPerfiles">
-          <End Role="catPerfiles" Type="Self.catPerfiles" Multiplicity="1" />
-          <End Role="tblAreasPerfil" Type="Self.tblAreasPerfil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catPerfiles">
-              <PropertyRef Name="PerfilID" />
-            </Principal>
-            <Dependent Role="tblAreasPerfil">
-              <PropertyRef Name="PerfilID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCentro_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblCentro">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCentro_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblCentro">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblClientes_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblClientes">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblClientes_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblClientes">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactoProveedores_tblProveedores">
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="1" />
-          <End Role="tblContactoProveedores" Type="Self.tblContactoProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProveedores">
-              <PropertyRef Name="ProveedorID" />
-            </Principal>
-            <Dependent Role="tblContactoProveedores">
-              <PropertyRef Name="ProveedorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactosCliente_tblClientes">
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="1" />
-          <End Role="tblContactosCliente" Type="Self.tblContactosCliente" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblClientes">
-              <PropertyRef Name="ClientesID" />
-            </Principal>
-            <Dependent Role="tblContactosCliente">
-              <PropertyRef Name="ClientesID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactosProspecto_tblProspectos">
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="1" />
-          <End Role="tblContactosProspecto" Type="Self.tblContactosProspecto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProspectos">
-              <PropertyRef Name="ProspectoID" />
-            </Principal>
-            <Dependent Role="tblContactosProspecto">
-              <PropertyRef Name="ProspectoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCorporativo_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblCorporativo">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCorreoNotificacion_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblCorreoNotificacion" Type="Self.tblCorreoNotificacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblCorreoNotificacion">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblEgresos_catTipoEgresos">
-          <End Role="catTipoEgresos" Type="Self.catTipoEgresos" Multiplicity="0..1" />
-          <End Role="tblEgresos" Type="Self.tblEgresos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoEgresos">
-              <PropertyRef Name="TipoEgresoID" />
-            </Principal>
-            <Dependent Role="tblEgresos">
-              <PropertyRef Name="TipoEgresoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblEgresos_tblCentro">
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="1" />
-          <End Role="tblEgresos" Type="Self.tblEgresos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCentro">
-              <PropertyRef Name="CentroID" />
-            </Principal>
-            <Dependent Role="tblEgresos">
-              <PropertyRef Name="CentroID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblFiscales_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblFiscales" Type="Self.tblFiscales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblFiscales">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblFiscales_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblFiscales" Type="Self.tblFiscales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblFiscales">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProductos_tblProductosCategoria1">
-          <End Role="tblProductosCategoria" Type="Self.tblProductosCategoria" Multiplicity="1" />
-          <End Role="tblProductos" Type="Self.tblProductos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProductosCategoria">
-              <PropertyRef Name="ProductosCategoriaID" />
-            </Principal>
-            <Dependent Role="tblProductos">
-              <PropertyRef Name="ProductosCategoriaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProductosCategoria_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProductosCategoria" Type="Self.tblProductosCategoria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProductosCategoria">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblMediosDeContacto">
-          <End Role="tblMediosDeContacto" Type="Self.tblMediosDeContacto" Multiplicity="0..1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMediosDeContacto">
-              <PropertyRef Name="MedioDeContactoID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="MedioDeContactoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUbicaciones_tblMexCP">
-          <End Role="tblMexCP" Type="Self.tblMexCP" Multiplicity="0..1" />
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMexCP">
-              <PropertyRef Name="d_codigo" />
-              <PropertyRef Name="id_asenta_cpcons" />
-            </Principal>
-            <Dependent Role="tblUbicaciones">
-              <PropertyRef Name="CodigoPostal" />
-              <PropertyRef Name="ColoniaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblUsuarios_catGenero">
           <End Role="catGenero" Type="Self.catGenero" Multiplicity="0..1" />
           <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
@@ -757,54 +179,6 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblUsuarios_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_tblUbicaciones1">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuariosCentros_tblCentro">
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="1" />
-          <End Role="tblUsuariosCentros" Type="Self.tblUsuariosCentros" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCentro">
-              <PropertyRef Name="CentroID" />
-            </Principal>
-            <Dependent Role="tblUsuariosCentros">
-              <PropertyRef Name="CentroID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="PreguntasSP" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MateriaIDFiltro" Type="int" Mode="In" />
           <Parameter Name="MateriaTemaIDFiltro" Type="int" Mode="In" />
@@ -815,34 +189,28 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Parameter Name="MateriaTemaIDFiltro" Type="int" Mode="In" />
           <Parameter Name="MateriaTemaPreguntaIDFiltro" Type="int" Mode="In" />
         </Function>
+        <Function Name="tblPreguntasRespuestas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MateriaF" Type="int" Mode="In" />
+          <Parameter Name="UsuarioFiltrado" Type="uniqueidentifier" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Materia" Type="varchar" MaxLength="50" />
+                <Property Name="DiagnoticoP" Type="int" />
+                <Property Name="CuestionarioP" Type="int" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="imDesarrolloModelStoreContainer">
-          <EntitySet Name="catAreas" EntityType="Self.catAreas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catBusquedaUsuario" EntityType="Self.catBusquedaUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catGenero" EntityType="Self.catGenero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catMateriaTemaPreguntaRespuestaBitacora" EntityType="Self.catMateriaTemaPreguntaRespuestaBitacora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="catMateriaTemaSintesis" EntityType="Self.catMateriaTemaSintesis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catPerfiles" EntityType="Self.catPerfiles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="catTipoEgresos" EntityType="Self.catTipoEgresos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="catTipoRFC" EntityType="Self.catTipoRFC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catTipoUsuarios" EntityType="Self.catTipoUsuarios" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblAreasPerfil" EntityType="Self.tblAreasPerfil" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblCentro" EntityType="Self.tblCentro" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblClientes" EntityType="Self.tblClientes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblContactoProveedores" EntityType="Self.tblContactoProveedores" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblContactosCliente" EntityType="Self.tblContactosCliente" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblContactosProspecto" EntityType="Self.tblContactosProspecto" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblCorporativo" EntityType="Self.tblCorporativo" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblCorreoNotificacion" EntityType="Self.tblCorreoNotificacion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblEgresos" EntityType="Self.tblEgresos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblFiscales" EntityType="Self.tblFiscales" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblMediosDeContacto" EntityType="Self.tblMediosDeContacto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMexCP" EntityType="Self.tblMexCP" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblProductos" EntityType="Self.tblProductos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblProductosCategoria" EntityType="Self.tblProductosCategoria" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblProspectos" EntityType="Self.tblProspectos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblProveedores" EntityType="Self.tblProveedores" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblUbicaciones" EntityType="Self.tblUbicaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblUsuarios" EntityType="Self.tblUsuarios" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tblUsuariosCentros" EntityType="Self.tblUsuariosCentros" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="catMateria" EntityType="Self.catMateria" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [catMateria].[MateriaID] AS [MateriaID], 
@@ -874,125 +242,6 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
     [catMateriaTemaPreguntaRespuesta].[MateriaTemaPreguntaRespuestaID] AS [MateriaTemaPreguntaRespuestaID]
     FROM [dbo].[catMateriaTemaPreguntaRespuesta] AS [catMateriaTemaPreguntaRespuesta]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="catMateriaTemaPreguntaRespuestaBitacora" EntityType="Self.catMateriaTemaPreguntaRespuestaBitacora" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [catMateriaTemaPreguntaRespuestaBitacora].[TipoPreguntaID] AS [TipoPreguntaID], 
-    [catMateriaTemaPreguntaRespuestaBitacora].[MateriaTemaPreguntaRespuestaID] AS [MateriaTemaPreguntaRespuestaID], 
-    [catMateriaTemaPreguntaRespuestaBitacora].[UsuarioID] AS [UsuarioID], 
-    [catMateriaTemaPreguntaRespuestaBitacora].[FechaRegistro] AS [FechaRegistro], 
-    [catMateriaTemaPreguntaRespuestaBitacora].[MateriaTemaPreguntaID] AS [MateriaTemaPreguntaID], 
-    [catMateriaTemaPreguntaRespuestaBitacora].[MateriaTemaPreguntaRespuestaBitacoraID] AS [MateriaTemaPreguntaRespuestaBitacoraID]
-    FROM [dbo].[catMateriaTemaPreguntaRespuestaBitacora] AS [catMateriaTemaPreguntaRespuestaBitacora]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="catMateriaTemaSintesis" EntityType="Self.catMateriaTemaSintesis" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [catMateriaTemaSintesis].[MateriaTemaSintesisID] AS [MateriaTemaSintesisID], 
-    [catMateriaTemaSintesis].[Sintesis] AS [Sintesis], 
-    [catMateriaTemaSintesis].[UsuarioID] AS [UsuarioID], 
-    [catMateriaTemaSintesis].[FechaRegistro] AS [FechaRegistro], 
-    [catMateriaTemaSintesis].[MateriaTemaID] AS [MateriaTemaID]
-    FROM [dbo].[catMateriaTemaSintesis] AS [catMateriaTemaSintesis]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_tblAreasPerfil_catAreas" Association="Self.FK_tblAreasPerfil_catAreas">
-            <End Role="catAreas" EntitySet="catAreas" />
-            <End Role="tblAreasPerfil" EntitySet="tblAreasPerfil" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblAreasPerfil_catPerfiles" Association="Self.FK_tblAreasPerfil_catPerfiles">
-            <End Role="catPerfiles" EntitySet="catPerfiles" />
-            <End Role="tblAreasPerfil" EntitySet="tblAreasPerfil" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCentro_tblCorporativo" Association="Self.FK_tblCentro_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblCentro" EntitySet="tblCentro" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCentro_tblUbicaciones" Association="Self.FK_tblCentro_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblCentro" EntitySet="tblCentro" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblClientes_tblCorporativo" Association="Self.FK_tblClientes_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblClientes" EntitySet="tblClientes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblClientes_tblUbicaciones" Association="Self.FK_tblClientes_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblClientes" EntitySet="tblClientes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactoProveedores_tblProveedores" Association="Self.FK_tblContactoProveedores_tblProveedores">
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-            <End Role="tblContactoProveedores" EntitySet="tblContactoProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactosCliente_tblClientes" Association="Self.FK_tblContactosCliente_tblClientes">
-            <End Role="tblClientes" EntitySet="tblClientes" />
-            <End Role="tblContactosCliente" EntitySet="tblContactosCliente" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactosProspecto_tblProspectos" Association="Self.FK_tblContactosProspecto_tblProspectos">
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-            <End Role="tblContactosProspecto" EntitySet="tblContactosProspecto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCorporativo_tblUbicaciones" Association="Self.FK_tblCorporativo_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCorreoNotificacion_tblCorporativo" Association="Self.FK_tblCorreoNotificacion_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblCorreoNotificacion" EntitySet="tblCorreoNotificacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblEgresos_catTipoEgresos" Association="Self.FK_tblEgresos_catTipoEgresos">
-            <End Role="catTipoEgresos" EntitySet="catTipoEgresos" />
-            <End Role="tblEgresos" EntitySet="tblEgresos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblEgresos_tblCentro" Association="Self.FK_tblEgresos_tblCentro">
-            <End Role="tblCentro" EntitySet="tblCentro" />
-            <End Role="tblEgresos" EntitySet="tblEgresos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblFiscales_catTipoRFC" Association="Self.FK_tblFiscales_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblFiscales" EntitySet="tblFiscales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblFiscales_tblCorporativo" Association="Self.FK_tblFiscales_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblFiscales" EntitySet="tblFiscales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProductos_tblProductosCategoria1" Association="Self.FK_tblProductos_tblProductosCategoria1">
-            <End Role="tblProductosCategoria" EntitySet="tblProductosCategoria" />
-            <End Role="tblProductos" EntitySet="tblProductos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProductosCategoria_tblCorporativo" Association="Self.FK_tblProductosCategoria_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProductosCategoria" EntitySet="tblProductosCategoria" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_catTipoRFC" Association="Self.FK_tblProspectos_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblCorporativo" Association="Self.FK_tblProspectos_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblMediosDeContacto" Association="Self.FK_tblProspectos_tblMediosDeContacto">
-            <End Role="tblMediosDeContacto" EntitySet="tblMediosDeContacto" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblUbicaciones" Association="Self.FK_tblProspectos_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_catTipoRFC" Association="Self.FK_tblProveedores_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_tblCorporativo" Association="Self.FK_tblProveedores_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_tblUbicaciones" Association="Self.FK_tblProveedores_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUbicaciones_tblMexCP" Association="Self.FK_tblUbicaciones_tblMexCP">
-            <End Role="tblMexCP" EntitySet="tblMexCP" />
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblUsuarios_catGenero" Association="Self.FK_tblUsuarios_catGenero">
             <End Role="catGenero" EntitySet="catGenero" />
             <End Role="tblUsuarios" EntitySet="tblUsuarios" />
@@ -1005,443 +254,36 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
             <End Role="catTipoUsuarios" EntitySet="catTipoUsuarios" />
             <End Role="tblUsuarios" EntitySet="tblUsuarios" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblCorporativo" Association="Self.FK_tblUsuarios_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblUbicaciones" Association="Self.FK_tblUsuarios_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblUbicaciones1" Association="Self.FK_tblUsuarios_tblUbicaciones1">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuariosCentros_tblCentro" Association="Self.FK_tblUsuariosCentros_tblCentro">
-            <End Role="tblCentro" EntitySet="tblCentro" />
-            <End Role="tblUsuariosCentros" EntitySet="tblUsuariosCentros" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="imDesarrolloModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="catAreas">
-          <Key>
-            <PropertyRef Name="AreaID" />
-          </Key>
-          <Property Name="AreaID" Type="Int32" Nullable="false" />
-          <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tblAreasPerfil" Relationship="Self.FK_tblAreasPerfil_catAreas" FromRole="catAreas" ToRole="tblAreasPerfil" />
-        </EntityType>
-        <EntityType Name="catBusquedaUsuario">
-          <Key>
-            <PropertyRef Name="BusquedaUsuarioID" />
-          </Key>
-          <Property Name="BusquedaUsuarioID" Type="Int32" Nullable="false" />
-          <Property Name="BusquedaUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="catGenero">
-          <Key>
-            <PropertyRef Name="GeneroID" />
-          </Key>
-          <Property Name="GeneroID" Type="Int32" Nullable="false" />
-          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblUsuarios" Relationship="Self.FK_tblUsuarios_catGenero" FromRole="catGenero" ToRole="tblUsuarios" />
-        </EntityType>
-        <EntityType Name="catPerfiles">
-          <Key>
-            <PropertyRef Name="PerfilID" />
-          </Key>
-          <Property Name="PerfilID" Type="Int32" Nullable="false" />
-          <Property Name="Perfil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="tblAreasPerfil" Relationship="Self.FK_tblAreasPerfil_catPerfiles" FromRole="catPerfiles" ToRole="tblAreasPerfil" />
-          <NavigationProperty Name="tblUsuarios" Relationship="Self.FK_tblUsuarios_catPerfiles" FromRole="catPerfiles" ToRole="tblUsuarios" />
-        </EntityType>
-        <EntityType Name="catTipoEgresos">
-          <Key>
-            <PropertyRef Name="TipoEgresoID" />
-          </Key>
-          <Property Name="TipoEgresoID" Type="Int32" Nullable="false" />
-          <Property Name="TipoEgreso" Type="String" MaxLength="350" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblEgresos" Relationship="Self.FK_tblEgresos_catTipoEgresos" FromRole="catTipoEgresos" ToRole="tblEgresos" />
-        </EntityType>
-        <EntityType Name="catTipoRFC">
-          <Key>
-            <PropertyRef Name="TipoRFCID" />
-          </Key>
-          <Property Name="TipoRFCID" Type="Int32" Nullable="false" />
-          <Property Name="TipoRFC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblFiscales" Relationship="Self.FK_tblFiscales_catTipoRFC" FromRole="catTipoRFC" ToRole="tblFiscales" />
-          <NavigationProperty Name="tblProspectos" Relationship="Self.FK_tblProspectos_catTipoRFC" FromRole="catTipoRFC" ToRole="tblProspectos" />
-          <NavigationProperty Name="tblProveedores" Relationship="Self.FK_tblProveedores_catTipoRFC" FromRole="catTipoRFC" ToRole="tblProveedores" />
-        </EntityType>
-        <EntityType Name="catTipoUsuarios">
-          <Key>
-            <PropertyRef Name="TipoUsuarioID" />
-          </Key>
-          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" />
-          <Property Name="TipoUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblUsuarios" Relationship="Self.FK_tblUsuarios_catTipoUsuarios" FromRole="catTipoUsuarios" ToRole="tblUsuarios" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="tblAreasPerfil">
-          <Key>
-            <PropertyRef Name="AreasPerfilID" />
-          </Key>
-          <Property Name="AreaID" Type="Int32" Nullable="false" />
-          <Property Name="PerfilID" Type="Int32" Nullable="false" />
-          <Property Name="AreasPerfilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="catAreas" Relationship="Self.FK_tblAreasPerfil_catAreas" FromRole="tblAreasPerfil" ToRole="catAreas" />
-          <NavigationProperty Name="catPerfiles" Relationship="Self.FK_tblAreasPerfil_catPerfiles" FromRole="tblAreasPerfil" ToRole="catPerfiles" />
-        </EntityType>
-        <EntityType Name="tblCentro">
-          <Key>
-            <PropertyRef Name="CentroID" />
-          </Key>
-          <Property Name="CentroID" Type="Guid" Nullable="false" />
-          <Property Name="TipoCentroID" Type="Int32" />
-          <Property Name="CodigoCentro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblCentro_tblCorporativo" FromRole="tblCentro" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblCentro_tblUbicaciones" FromRole="tblCentro" ToRole="tblUbicaciones" />
-          <NavigationProperty Name="tblEgresos" Relationship="Self.FK_tblEgresos_tblCentro" FromRole="tblCentro" ToRole="tblEgresos" />
-          <NavigationProperty Name="tblUsuariosCentros" Relationship="Self.FK_tblUsuariosCentros_tblCentro" FromRole="tblCentro" ToRole="tblUsuariosCentros" />
-        </EntityType>
-        <EntityType Name="tblClientes">
-          <Key>
-            <PropertyRef Name="ClientesID" />
-          </Key>
-          <Property Name="ClientesID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoRFCID" Type="Int32" />
-          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblClientes_tblCorporativo" FromRole="tblClientes" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblClientes_tblUbicaciones" FromRole="tblClientes" ToRole="tblUbicaciones" />
-          <NavigationProperty Name="tblContactosCliente" Relationship="Self.FK_tblContactosCliente_tblClientes" FromRole="tblClientes" ToRole="tblContactosCliente" />
-        </EntityType>
-        <EntityType Name="tblContactoProveedores">
-          <Key>
-            <PropertyRef Name="ContactoProveedorID" />
-          </Key>
-          <Property Name="ContactoProveedorID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CalleNumero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="ColoniaID" Type="Int32" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="ProveedorID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblProveedores" Relationship="Self.FK_tblContactoProveedores_tblProveedores" FromRole="tblContactoProveedores" ToRole="tblProveedores" />
-        </EntityType>
-        <EntityType Name="tblContactosCliente">
-          <Key>
-            <PropertyRef Name="ContactoClienteID" />
-          </Key>
-          <Property Name="ContactoClienteID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CalleNumero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="ColoniaID" Type="Int32" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="ClientesID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblClientes" Relationship="Self.FK_tblContactosCliente_tblClientes" FromRole="tblContactosCliente" ToRole="tblClientes" />
-        </EntityType>
-        <EntityType Name="tblContactosProspecto">
-          <Key>
-            <PropertyRef Name="ContactoProspectoID" />
-          </Key>
-          <Property Name="ContactoProspectoID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CalleNumero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="ColoniaID" Type="Int32" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="ProspectoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblProspectos" Relationship="Self.FK_tblContactosProspecto_tblProspectos" FromRole="tblContactosProspecto" ToRole="tblProspectos" />
-        </EntityType>
-        <EntityType Name="tblCorporativo">
-          <Key>
-            <PropertyRef Name="CorporativoID" />
-          </Key>
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoElecronico" Type="Binary" MaxLength="50" FixedLength="false" />
-          <Property Name="Telefono" Type="Binary" MaxLength="50" FixedLength="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tblCentro" Relationship="Self.FK_tblCentro_tblCorporativo" FromRole="tblCorporativo" ToRole="tblCentro" />
-          <NavigationProperty Name="tblClientes" Relationship="Self.FK_tblClientes_tblCorporativo" FromRole="tblCorporativo" ToRole="tblClientes" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblCorporativo_tblUbicaciones" FromRole="tblCorporativo" ToRole="tblUbicaciones" />
-          <NavigationProperty Name="tblCorreoNotificacion" Relationship="Self.FK_tblCorreoNotificacion_tblCorporativo" FromRole="tblCorporativo" ToRole="tblCorreoNotificacion" />
-          <NavigationProperty Name="tblFiscales" Relationship="Self.FK_tblFiscales_tblCorporativo" FromRole="tblCorporativo" ToRole="tblFiscales" />
-          <NavigationProperty Name="tblProductosCategoria" Relationship="Self.FK_tblProductosCategoria_tblCorporativo" FromRole="tblCorporativo" ToRole="tblProductosCategoria" />
-          <NavigationProperty Name="tblProspectos" Relationship="Self.FK_tblProspectos_tblCorporativo" FromRole="tblCorporativo" ToRole="tblProspectos" />
-          <NavigationProperty Name="tblProveedores" Relationship="Self.FK_tblProveedores_tblCorporativo" FromRole="tblCorporativo" ToRole="tblProveedores" />
-          <NavigationProperty Name="tblUsuarios" Relationship="Self.FK_tblUsuarios_tblCorporativo" FromRole="tblCorporativo" ToRole="tblUsuarios" />
-        </EntityType>
-        <EntityType Name="tblCorreoNotificacion">
-          <Key>
-            <PropertyRef Name="CorreoNotificacionID" />
-          </Key>
-          <Property Name="CorreoNotificacionID" Type="Guid" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Asunto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="SMTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Puerto" Type="Int32" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblCorreoNotificacion_tblCorporativo" FromRole="tblCorreoNotificacion" ToRole="tblCorporativo" />
-        </EntityType>
-        <EntityType Name="tblEgresos">
-          <Key>
-            <PropertyRef Name="EgresosID" />
-          </Key>
-          <Property Name="EgresosID" Type="Guid" Nullable="false" />
-          <Property Name="TipoEgresoID" Type="Int32" />
-          <Property Name="Descripcion" Type="String" MaxLength="350" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Caracteristica" Type="String" MaxLength="350" FixedLength="false" Unicode="false" />
-          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CentroID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="catTipoEgresos" Relationship="Self.FK_tblEgresos_catTipoEgresos" FromRole="tblEgresos" ToRole="catTipoEgresos" />
-          <NavigationProperty Name="tblCentro" Relationship="Self.FK_tblEgresos_tblCentro" FromRole="tblEgresos" ToRole="tblCentro" />
-        </EntityType>
-        <EntityType Name="tblFiscales">
-          <Key>
-            <PropertyRef Name="FiscalID" />
-          </Key>
-          <Property Name="FiscalID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoRFCID" Type="Int32" />
-          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="catTipoRFC" Relationship="Self.FK_tblFiscales_catTipoRFC" FromRole="tblFiscales" ToRole="catTipoRFC" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblFiscales_tblCorporativo" FromRole="tblFiscales" ToRole="tblCorporativo" />
-        </EntityType>
-        <EntityType Name="tblMediosDeContacto">
-          <Key>
-            <PropertyRef Name="MedioDeContactoID" />
-          </Key>
-          <Property Name="MedioDeContactoID" Type="Int32" Nullable="false" />
-          <Property Name="MedioDeContacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblProspectos" Relationship="Self.FK_tblProspectos_tblMediosDeContacto" FromRole="tblMediosDeContacto" ToRole="tblProspectos" />
-        </EntityType>
-        <EntityType Name="tblMexCP">
-          <Key>
-            <PropertyRef Name="d_codigo" />
-            <PropertyRef Name="id_asenta_cpcons" />
-          </Key>
-          <Property Name="d_codigo" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="d_asenta" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="d_tipo_asenta" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="D_mnpio" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="d_estado" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="d_ciudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="d_CP" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_estado" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_oficina" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_CP" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_tipo_asenta" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_mnpio" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="id_asenta_cpcons" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="d_zona" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="c_cve_ciudad" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblUbicaciones_tblMexCP" FromRole="tblMexCP" ToRole="tblUbicaciones" />
-        </EntityType>
-        <EntityType Name="tblProductos">
-          <Key>
-            <PropertyRef Name="ProductoID" />
-          </Key>
-          <Property Name="ProductoID" Type="Guid" Nullable="false" />
-          <Property Name="CodigoProducto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ProductosCategoriaID" Type="Int32" Nullable="false" />
-          <Property Name="Descripcion" Type="String" MaxLength="350" FixedLength="false" Unicode="false" />
-          <Property Name="Caracteristica" Type="String" MaxLength="350" FixedLength="false" Unicode="false" />
-          <Property Name="Costo" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="tblProductosCategoria" Relationship="Self.FK_tblProductos_tblProductosCategoria1" FromRole="tblProductos" ToRole="tblProductosCategoria" />
-        </EntityType>
-        <EntityType Name="tblProductosCategoria">
-          <Key>
-            <PropertyRef Name="ProductosCategoriaID" />
-          </Key>
-          <Property Name="ProductosCategoriaID" Type="Int32" Nullable="false" />
-          <Property Name="ProductosCategoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblProductosCategoria_tblCorporativo" FromRole="tblProductosCategoria" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblProductos" Relationship="Self.FK_tblProductos_tblProductosCategoria1" FromRole="tblProductosCategoria" ToRole="tblProductos" />
-        </EntityType>
-        <EntityType Name="tblProspectos">
-          <Key>
-            <PropertyRef Name="ProspectoID" />
-          </Key>
-          <Property Name="ProspectoID" Type="Guid" Nullable="false" />
-          <Property Name="MedioDeContactoID" Type="Int32" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoRFCID" Type="Int32" />
-          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="catTipoRFC" Relationship="Self.FK_tblProspectos_catTipoRFC" FromRole="tblProspectos" ToRole="catTipoRFC" />
-          <NavigationProperty Name="tblContactosProspecto" Relationship="Self.FK_tblContactosProspecto_tblProspectos" FromRole="tblProspectos" ToRole="tblContactosProspecto" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblProspectos_tblCorporativo" FromRole="tblProspectos" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblMediosDeContacto" Relationship="Self.FK_tblProspectos_tblMediosDeContacto" FromRole="tblProspectos" ToRole="tblMediosDeContacto" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblProspectos_tblUbicaciones" FromRole="tblProspectos" ToRole="tblUbicaciones" />
-        </EntityType>
-        <EntityType Name="tblProveedores">
-          <Key>
-            <PropertyRef Name="ProveedorID" />
-          </Key>
-          <Property Name="ProveedorID" Type="Guid" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TipoRFCID" Type="Int32" />
-          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="catTipoRFC" Relationship="Self.FK_tblProveedores_catTipoRFC" FromRole="tblProveedores" ToRole="catTipoRFC" />
-          <NavigationProperty Name="tblContactoProveedores" Relationship="Self.FK_tblContactoProveedores_tblProveedores" FromRole="tblProveedores" ToRole="tblContactoProveedores" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblProveedores_tblCorporativo" FromRole="tblProveedores" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblProveedores_tblUbicaciones" FromRole="tblProveedores" ToRole="tblUbicaciones" />
-        </EntityType>
-        <EntityType Name="tblUbicaciones">
-          <Key>
-            <PropertyRef Name="UbicacionID" />
-          </Key>
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="TipoUbicacionID" Type="Int32" />
-          <Property Name="CalleNumero" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoPostal" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="ColoniaID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="tblCentro" Relationship="Self.FK_tblCentro_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblCentro" />
-          <NavigationProperty Name="tblClientes" Relationship="Self.FK_tblClientes_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblClientes" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblCorporativo_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblMexCP" Relationship="Self.FK_tblUbicaciones_tblMexCP" FromRole="tblUbicaciones" ToRole="tblMexCP" />
-          <NavigationProperty Name="tblProspectos" Relationship="Self.FK_tblProspectos_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblProspectos" />
-          <NavigationProperty Name="tblProveedores" Relationship="Self.FK_tblProveedores_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblProveedores" />
-          <NavigationProperty Name="tblUsuarios" Relationship="Self.FK_tblUsuarios_tblUbicaciones" FromRole="tblUbicaciones" ToRole="tblUsuarios" />
-          <NavigationProperty Name="tblUsuarios1" Relationship="Self.FK_tblUsuarios_tblUbicaciones1" FromRole="tblUbicaciones" ToRole="tblUsuarios" />
-        </EntityType>
-        <EntityType Name="tblUsuarios">
-          <Key>
-            <PropertyRef Name="UsuarioID" />
-          </Key>
-          <Property Name="UsuarioID" Type="Guid" Nullable="false" />
-          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" />
-          <Property Name="PerfilID" Type="Int32" Nullable="false" />
-          <Property Name="CodigoUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="GeneroID" Type="Int32" />
-          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="catGenero" Relationship="Self.FK_tblUsuarios_catGenero" FromRole="tblUsuarios" ToRole="catGenero" />
-          <NavigationProperty Name="catPerfiles" Relationship="Self.FK_tblUsuarios_catPerfiles" FromRole="tblUsuarios" ToRole="catPerfiles" />
-          <NavigationProperty Name="catTipoUsuarios" Relationship="Self.FK_tblUsuarios_catTipoUsuarios" FromRole="tblUsuarios" ToRole="catTipoUsuarios" />
-          <NavigationProperty Name="tblCorporativo" Relationship="Self.FK_tblUsuarios_tblCorporativo" FromRole="tblUsuarios" ToRole="tblCorporativo" />
-          <NavigationProperty Name="tblUbicaciones" Relationship="Self.FK_tblUsuarios_tblUbicaciones" FromRole="tblUsuarios" ToRole="tblUbicaciones" />
-          <NavigationProperty Name="tblUbicaciones1" Relationship="Self.FK_tblUsuarios_tblUbicaciones1" FromRole="tblUsuarios" ToRole="tblUbicaciones" />
-        </EntityType>
-        <EntityType Name="tblUsuariosCentros">
-          <Key>
-            <PropertyRef Name="UsuarioID" />
-          </Key>
-          <Property Name="UsuarioID" Type="Guid" Nullable="false" />
-          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" />
-          <Property Name="PerfilID" Type="Int32" Nullable="false" />
-          <Property Name="CodigoUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="GeneroID" Type="Int32" Nullable="false" />
-          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
-          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
-          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="CentroID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="tblCentro" Relationship="Self.FK_tblUsuariosCentros_tblCentro" FromRole="tblUsuariosCentros" ToRole="tblCentro" />
-        </EntityType>
-        <EntityType Name="catMateria">
-          <Key>
-            <PropertyRef Name="MateriaID" />
-          </Key>
-          <Property Name="MateriaID" Type="Int32" Nullable="false" />
+        <ComplexType Name="tblPreguntasRespuestas_Result">
           <Property Name="Materia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DiagnoticoP" Type="Int32" />
+          <Property Name="CuestionarioP" Type="Int32" />
+        </ComplexType>
+        <EntityType Name="catMateriaTemaPreguntaRespuestaBitacora">
+          <Key>
+            <PropertyRef Name="MateriaTemaPreguntaRespuestaBitacoraID" />
+          </Key>
+          <Property Name="TipoPreguntaID" Type="Int32" />
+          <Property Name="MateriaTemaPreguntaRespuestaID" Type="Int32" />
+          <Property Name="UsuarioID" Type="Guid" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
+          <Property Name="MateriaTemaPreguntaID" Type="Int32" />
+          <Property Name="MateriaTemaPreguntaRespuestaBitacoraID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="catMateriaTemaSintesis">
+          <Key>
+            <PropertyRef Name="MateriaTemaSintesisID" />
+          </Key>
+          <Property Name="MateriaTemaSintesisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sintesis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UsuarioID" Type="Guid" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
+          <Property Name="MateriaTemaID" Type="Int32" />
         </EntityType>
         <EntityType Name="catMateriaTema">
           <Key>
@@ -1471,575 +313,16 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Property Name="Justificacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="MateriaTemaPreguntaRespuestaID" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="catMateriaTemaPreguntaRespuestaBitacora">
-          <Key>
-            <PropertyRef Name="MateriaTemaPreguntaRespuestaBitacoraID" />
-          </Key>
-          <Property Name="TipoPreguntaID" Type="Int32" />
-          <Property Name="MateriaTemaPreguntaRespuestaID" Type="Int32" />
-          <Property Name="UsuarioID" Type="Guid" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="MateriaTemaPreguntaID" Type="Int32" />
-          <Property Name="MateriaTemaPreguntaRespuestaBitacoraID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="catMateriaTemaSintesis">
-          <Key>
-            <PropertyRef Name="MateriaTemaSintesisID" />
-          </Key>
-          <Property Name="MateriaTemaSintesisID" Type="Int32" Nullable="false" />
-          <Property Name="Sintesis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="UsuarioID" Type="Guid" />
-          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
-          <Property Name="MateriaTemaID" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_tblAreasPerfil_catAreas">
-          <End Role="catAreas" Type="Self.catAreas" Multiplicity="1" />
-          <End Role="tblAreasPerfil" Type="Self.tblAreasPerfil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catAreas">
-              <PropertyRef Name="AreaID" />
-            </Principal>
-            <Dependent Role="tblAreasPerfil">
-              <PropertyRef Name="AreaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_catGenero">
-          <End Role="catGenero" Type="Self.catGenero" Multiplicity="0..1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catGenero">
-              <PropertyRef Name="GeneroID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="GeneroID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblAreasPerfil_catPerfiles">
-          <End Role="catPerfiles" Type="Self.catPerfiles" Multiplicity="1" />
-          <End Role="tblAreasPerfil" Type="Self.tblAreasPerfil" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catPerfiles">
-              <PropertyRef Name="PerfilID" />
-            </Principal>
-            <Dependent Role="tblAreasPerfil">
-              <PropertyRef Name="PerfilID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_catPerfiles">
-          <End Role="catPerfiles" Type="Self.catPerfiles" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catPerfiles">
-              <PropertyRef Name="PerfilID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="PerfilID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblEgresos_catTipoEgresos">
-          <End Role="catTipoEgresos" Type="Self.catTipoEgresos" Multiplicity="0..1" />
-          <End Role="tblEgresos" Type="Self.tblEgresos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoEgresos">
-              <PropertyRef Name="TipoEgresoID" />
-            </Principal>
-            <Dependent Role="tblEgresos">
-              <PropertyRef Name="TipoEgresoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblFiscales_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblFiscales" Type="Self.tblFiscales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblFiscales">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_catTipoRFC">
-          <End Role="catTipoRFC" Type="Self.catTipoRFC" Multiplicity="0..1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoRFC">
-              <PropertyRef Name="TipoRFCID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="TipoRFCID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_catTipoUsuarios">
-          <End Role="catTipoUsuarios" Type="Self.catTipoUsuarios" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="catTipoUsuarios">
-              <PropertyRef Name="TipoUsuarioID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="TipoUsuarioID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCentro_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblCentro">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCentro_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblCentro">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblEgresos_tblCentro">
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="1" />
-          <End Role="tblEgresos" Type="Self.tblEgresos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCentro">
-              <PropertyRef Name="CentroID" />
-            </Principal>
-            <Dependent Role="tblEgresos">
-              <PropertyRef Name="CentroID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuariosCentros_tblCentro">
-          <End Role="tblCentro" Type="Self.tblCentro" Multiplicity="1" />
-          <End Role="tblUsuariosCentros" Type="Self.tblUsuariosCentros" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCentro">
-              <PropertyRef Name="CentroID" />
-            </Principal>
-            <Dependent Role="tblUsuariosCentros">
-              <PropertyRef Name="CentroID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblClientes_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblClientes">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblClientes_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblClientes">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactosCliente_tblClientes">
-          <End Role="tblClientes" Type="Self.tblClientes" Multiplicity="1" />
-          <End Role="tblContactosCliente" Type="Self.tblContactosCliente" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblClientes">
-              <PropertyRef Name="ClientesID" />
-            </Principal>
-            <Dependent Role="tblContactosCliente">
-              <PropertyRef Name="ClientesID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactoProveedores_tblProveedores">
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="1" />
-          <End Role="tblContactoProveedores" Type="Self.tblContactoProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProveedores">
-              <PropertyRef Name="ProveedorID" />
-            </Principal>
-            <Dependent Role="tblContactoProveedores">
-              <PropertyRef Name="ProveedorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblContactosProspecto_tblProspectos">
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="1" />
-          <End Role="tblContactosProspecto" Type="Self.tblContactosProspecto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProspectos">
-              <PropertyRef Name="ProspectoID" />
-            </Principal>
-            <Dependent Role="tblContactosProspecto">
-              <PropertyRef Name="ProspectoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCorporativo_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblCorporativo">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblCorreoNotificacion_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblCorreoNotificacion" Type="Self.tblCorreoNotificacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblCorreoNotificacion">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblFiscales_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblFiscales" Type="Self.tblFiscales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblFiscales">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProductosCategoria_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProductosCategoria" Type="Self.tblProductosCategoria" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProductosCategoria">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_tblCorporativo">
-          <End Role="tblCorporativo" Type="Self.tblCorporativo" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblCorporativo">
-              <PropertyRef Name="CorporativoID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="CorporativoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblMediosDeContacto">
-          <End Role="tblMediosDeContacto" Type="Self.tblMediosDeContacto" Multiplicity="0..1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMediosDeContacto">
-              <PropertyRef Name="MedioDeContactoID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="MedioDeContactoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUbicaciones_tblMexCP">
-          <End Role="tblMexCP" Type="Self.tblMexCP" Multiplicity="0..1" />
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMexCP">
-              <PropertyRef Name="d_codigo" />
-              <PropertyRef Name="id_asenta_cpcons" />
-            </Principal>
-            <Dependent Role="tblUbicaciones">
-              <PropertyRef Name="CodigoPostal" />
-              <PropertyRef Name="ColoniaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProductos_tblProductosCategoria1">
-          <End Role="tblProductosCategoria" Type="Self.tblProductosCategoria" Multiplicity="1" />
-          <End Role="tblProductos" Type="Self.tblProductos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblProductosCategoria">
-              <PropertyRef Name="ProductosCategoriaID" />
-            </Principal>
-            <Dependent Role="tblProductos">
-              <PropertyRef Name="ProductosCategoriaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProspectos_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblProspectos" Type="Self.tblProspectos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblProspectos">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblProveedores_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblProveedores" Type="Self.tblProveedores" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblProveedores">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_tblUbicaciones">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tblUsuarios_tblUbicaciones1">
-          <End Role="tblUbicaciones" Type="Self.tblUbicaciones" Multiplicity="1" />
-          <End Role="tblUsuarios" Type="Self.tblUsuarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblUbicaciones">
-              <PropertyRef Name="UbicacionID" />
-            </Principal>
-            <Dependent Role="tblUsuarios">
-              <PropertyRef Name="UbicacionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="imDesarrolloEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="catAreas" EntityType="Self.catAreas" />
-          <EntitySet Name="catBusquedaUsuario" EntityType="Self.catBusquedaUsuario" />
-          <EntitySet Name="catGenero" EntityType="Self.catGenero" />
-          <EntitySet Name="catPerfiles" EntityType="Self.catPerfiles" />
-          <EntitySet Name="catTipoEgresos" EntityType="Self.catTipoEgresos" />
-          <EntitySet Name="catTipoRFC" EntityType="Self.catTipoRFC" />
-          <EntitySet Name="catTipoUsuarios" EntityType="Self.catTipoUsuarios" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="tblAreasPerfil" EntityType="Self.tblAreasPerfil" />
-          <EntitySet Name="tblCentro" EntityType="Self.tblCentro" />
-          <EntitySet Name="tblClientes" EntityType="Self.tblClientes" />
-          <EntitySet Name="tblContactoProveedores" EntityType="Self.tblContactoProveedores" />
-          <EntitySet Name="tblContactosCliente" EntityType="Self.tblContactosCliente" />
-          <EntitySet Name="tblContactosProspecto" EntityType="Self.tblContactosProspecto" />
-          <EntitySet Name="tblCorporativo" EntityType="Self.tblCorporativo" />
-          <EntitySet Name="tblCorreoNotificacion" EntityType="Self.tblCorreoNotificacion" />
-          <EntitySet Name="tblEgresos" EntityType="Self.tblEgresos" />
-          <EntitySet Name="tblFiscales" EntityType="Self.tblFiscales" />
-          <EntitySet Name="tblMediosDeContacto" EntityType="Self.tblMediosDeContacto" />
-          <EntitySet Name="tblMexCP" EntityType="Self.tblMexCP" />
-          <EntitySet Name="tblProductos" EntityType="Self.tblProductos" />
-          <EntitySet Name="tblProductosCategoria" EntityType="Self.tblProductosCategoria" />
-          <EntitySet Name="tblProspectos" EntityType="Self.tblProspectos" />
-          <EntitySet Name="tblProveedores" EntityType="Self.tblProveedores" />
-          <EntitySet Name="tblUbicaciones" EntityType="Self.tblUbicaciones" />
-          <EntitySet Name="tblUsuarios" EntityType="Self.tblUsuarios" />
-          <EntitySet Name="tblUsuariosCentros" EntityType="Self.tblUsuariosCentros" />
-          <EntitySet Name="catMateria" EntityType="Self.catMateria" />
+          <EntitySet Name="catMateriaTemaPreguntaRespuestaBitacora" EntityType="Self.catMateriaTemaPreguntaRespuestaBitacora" />
+          <EntitySet Name="catMateriaTemaSintesis" EntityType="Self.catMateriaTemaSintesis" />
           <EntitySet Name="catMateriaTema" EntityType="Self.catMateriaTema" />
           <EntitySet Name="catMateriaTemaPregunta" EntityType="Self.catMateriaTemaPregunta" />
           <EntitySet Name="catMateriaTemaPreguntaRespuesta" EntityType="Self.catMateriaTemaPreguntaRespuesta" />
-          <EntitySet Name="catMateriaTemaPreguntaRespuestaBitacora" EntityType="Self.catMateriaTemaPreguntaRespuestaBitacora" />
-          <EntitySet Name="catMateriaTemaSintesis" EntityType="Self.catMateriaTemaSintesis" />
-          <AssociationSet Name="FK_tblAreasPerfil_catAreas" Association="Self.FK_tblAreasPerfil_catAreas">
-            <End Role="catAreas" EntitySet="catAreas" />
-            <End Role="tblAreasPerfil" EntitySet="tblAreasPerfil" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_catGenero" Association="Self.FK_tblUsuarios_catGenero">
-            <End Role="catGenero" EntitySet="catGenero" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblAreasPerfil_catPerfiles" Association="Self.FK_tblAreasPerfil_catPerfiles">
-            <End Role="catPerfiles" EntitySet="catPerfiles" />
-            <End Role="tblAreasPerfil" EntitySet="tblAreasPerfil" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_catPerfiles" Association="Self.FK_tblUsuarios_catPerfiles">
-            <End Role="catPerfiles" EntitySet="catPerfiles" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblEgresos_catTipoEgresos" Association="Self.FK_tblEgresos_catTipoEgresos">
-            <End Role="catTipoEgresos" EntitySet="catTipoEgresos" />
-            <End Role="tblEgresos" EntitySet="tblEgresos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblFiscales_catTipoRFC" Association="Self.FK_tblFiscales_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblFiscales" EntitySet="tblFiscales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_catTipoRFC" Association="Self.FK_tblProspectos_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_catTipoRFC" Association="Self.FK_tblProveedores_catTipoRFC">
-            <End Role="catTipoRFC" EntitySet="catTipoRFC" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_catTipoUsuarios" Association="Self.FK_tblUsuarios_catTipoUsuarios">
-            <End Role="catTipoUsuarios" EntitySet="catTipoUsuarios" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCentro_tblCorporativo" Association="Self.FK_tblCentro_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblCentro" EntitySet="tblCentro" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCentro_tblUbicaciones" Association="Self.FK_tblCentro_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblCentro" EntitySet="tblCentro" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblEgresos_tblCentro" Association="Self.FK_tblEgresos_tblCentro">
-            <End Role="tblCentro" EntitySet="tblCentro" />
-            <End Role="tblEgresos" EntitySet="tblEgresos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuariosCentros_tblCentro" Association="Self.FK_tblUsuariosCentros_tblCentro">
-            <End Role="tblCentro" EntitySet="tblCentro" />
-            <End Role="tblUsuariosCentros" EntitySet="tblUsuariosCentros" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblClientes_tblCorporativo" Association="Self.FK_tblClientes_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblClientes" EntitySet="tblClientes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblClientes_tblUbicaciones" Association="Self.FK_tblClientes_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblClientes" EntitySet="tblClientes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactosCliente_tblClientes" Association="Self.FK_tblContactosCliente_tblClientes">
-            <End Role="tblClientes" EntitySet="tblClientes" />
-            <End Role="tblContactosCliente" EntitySet="tblContactosCliente" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactoProveedores_tblProveedores" Association="Self.FK_tblContactoProveedores_tblProveedores">
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-            <End Role="tblContactoProveedores" EntitySet="tblContactoProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblContactosProspecto_tblProspectos" Association="Self.FK_tblContactosProspecto_tblProspectos">
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-            <End Role="tblContactosProspecto" EntitySet="tblContactosProspecto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCorporativo_tblUbicaciones" Association="Self.FK_tblCorporativo_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblCorreoNotificacion_tblCorporativo" Association="Self.FK_tblCorreoNotificacion_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblCorreoNotificacion" EntitySet="tblCorreoNotificacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblFiscales_tblCorporativo" Association="Self.FK_tblFiscales_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblFiscales" EntitySet="tblFiscales" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProductosCategoria_tblCorporativo" Association="Self.FK_tblProductosCategoria_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProductosCategoria" EntitySet="tblProductosCategoria" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblCorporativo" Association="Self.FK_tblProspectos_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_tblCorporativo" Association="Self.FK_tblProveedores_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblCorporativo" Association="Self.FK_tblUsuarios_tblCorporativo">
-            <End Role="tblCorporativo" EntitySet="tblCorporativo" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblMediosDeContacto" Association="Self.FK_tblProspectos_tblMediosDeContacto">
-            <End Role="tblMediosDeContacto" EntitySet="tblMediosDeContacto" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUbicaciones_tblMexCP" Association="Self.FK_tblUbicaciones_tblMexCP">
-            <End Role="tblMexCP" EntitySet="tblMexCP" />
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProductos_tblProductosCategoria1" Association="Self.FK_tblProductos_tblProductosCategoria1">
-            <End Role="tblProductosCategoria" EntitySet="tblProductosCategoria" />
-            <End Role="tblProductos" EntitySet="tblProductos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProspectos_tblUbicaciones" Association="Self.FK_tblProspectos_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblProspectos" EntitySet="tblProspectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblProveedores_tblUbicaciones" Association="Self.FK_tblProveedores_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblProveedores" EntitySet="tblProveedores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblUbicaciones" Association="Self.FK_tblUsuarios_tblUbicaciones">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblUsuarios_tblUbicaciones1" Association="Self.FK_tblUsuarios_tblUbicaciones1">
-            <End Role="tblUbicaciones" EntitySet="tblUbicaciones" />
-            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
-          </AssociationSet>
+          <FunctionImport Name="tblPreguntasRespuestas" IsComposable="true" ReturnType="Collection(imDesarrolloModel.tblPreguntasRespuestas_Result)">
+            <Parameter Name="MateriaF" Mode="In" Type="Int32" />
+            <Parameter Name="UsuarioFiltrado" Mode="In" Type="Guid" />
+          </FunctionImport>
           <FunctionImport Name="PreguntasSP" ReturnType="Collection(imDesarrolloModel.PreguntasSP_Result)">
             <Parameter Name="MateriaIDFiltro" Mode="In" Type="Int32" />
             <Parameter Name="MateriaTemaIDFiltro" Mode="In" Type="Int32" />
@@ -2050,6 +333,25 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
             <Parameter Name="MateriaTemaIDFiltro" Mode="In" Type="Int32" />
             <Parameter Name="MateriaTemaPreguntaIDFiltro" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="catMateria" EntityType="imDesarrolloModel.catMateria" />
+          <EntitySet Name="catPerfiles" EntityType="imDesarrolloModel.catPerfiles" />
+          <EntitySet Name="catTipoUsuarios" EntityType="imDesarrolloModel.catTipoUsuarios" />
+          <EntitySet Name="tblUsuarios" EntityType="imDesarrolloModel.tblUsuarios" />
+          <AssociationSet Name="FK_tblUsuarios_catPerfiles" Association="imDesarrolloModel.FK_tblUsuarios_catPerfiles">
+            <End Role="catPerfiles" EntitySet="catPerfiles" />
+            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblUsuarios_catTipoUsuarios" Association="imDesarrolloModel.FK_tblUsuarios_catTipoUsuarios">
+            <End Role="catTipoUsuarios" EntitySet="catTipoUsuarios" />
+            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
+          </AssociationSet>
+          <EntitySet Name="catBusquedaUsuario" EntityType="imDesarrolloModel.catBusquedaUsuario" />
+          <EntitySet Name="catGenero" EntityType="imDesarrolloModel.catGenero" />
+          <EntitySet Name="tblMexCP" EntityType="imDesarrolloModel.tblMexCP" />
+          <AssociationSet Name="FK_tblUsuarios_catGenero" Association="imDesarrolloModel.FK_tblUsuarios_catGenero">
+            <End Role="catGenero" EntitySet="catGenero" />
+            <End Role="tblUsuarios" EntitySet="tblUsuarios" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="PreguntasSP_Result">
           <Property Type="Int64" Name="NuevoID" Nullable="true" />
@@ -2061,389 +363,155 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
           <Property Type="String" Name="MateriaTemaPreguntaRespuesta" Nullable="true" />
           <Property Type="Int32" Name="MateriaTemaPreguntaRespuestaID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="catMateria">
+          <Key>
+            <PropertyRef Name="MateriaID" />
+          </Key>
+          <Property Name="MateriaID" Type="Int32" Nullable="false" />
+          <Property Name="Materia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="catPerfiles">
+          <Key>
+            <PropertyRef Name="PerfilID" />
+          </Key>
+          <Property Name="PerfilID" Type="Int32" Nullable="false" />
+          <Property Name="Perfil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstatusRegistroID" Type="Int32" />
+          <Property Name="FechaRegistro" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="tblUsuarios" Relationship="imDesarrolloModel.FK_tblUsuarios_catPerfiles" FromRole="catPerfiles" ToRole="tblUsuarios" />
+        </EntityType>
+        <EntityType Name="catTipoUsuarios">
+          <Key>
+            <PropertyRef Name="TipoUsuarioID" />
+          </Key>
+          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="TipoUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblUsuarios" Relationship="imDesarrolloModel.FK_tblUsuarios_catTipoUsuarios" FromRole="catTipoUsuarios" ToRole="tblUsuarios" />
+        </EntityType>
+        <EntityType Name="tblUsuarios">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Guid" Nullable="false" />
+          <Property Name="TipoUsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="PerfilID" Type="Int32" Nullable="false" />
+          <Property Name="CodigoUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GeneroID" Type="Int32" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="CorreoPersonal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CorreoTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UbicacionID" Type="Int32" Nullable="false" />
+          <Property Name="EstatusRegistroID" Type="Int32" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CorporativoID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="catPerfiles" Relationship="imDesarrolloModel.FK_tblUsuarios_catPerfiles" FromRole="tblUsuarios" ToRole="catPerfiles" />
+          <NavigationProperty Name="catTipoUsuarios" Relationship="imDesarrolloModel.FK_tblUsuarios_catTipoUsuarios" FromRole="tblUsuarios" ToRole="catTipoUsuarios" />
+          <NavigationProperty Name="catGenero" Relationship="imDesarrolloModel.FK_tblUsuarios_catGenero" FromRole="tblUsuarios" ToRole="catGenero" />
+        </EntityType>
+        <Association Name="FK_tblUsuarios_catPerfiles">
+          <End Type="imDesarrolloModel.catPerfiles" Role="catPerfiles" Multiplicity="1" />
+          <End Type="imDesarrolloModel.tblUsuarios" Role="tblUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catPerfiles">
+              <PropertyRef Name="PerfilID" />
+            </Principal>
+            <Dependent Role="tblUsuarios">
+              <PropertyRef Name="PerfilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tblUsuarios_catTipoUsuarios">
+          <End Type="imDesarrolloModel.catTipoUsuarios" Role="catTipoUsuarios" Multiplicity="1" />
+          <End Type="imDesarrolloModel.tblUsuarios" Role="tblUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catTipoUsuarios">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Principal>
+            <Dependent Role="tblUsuarios">
+              <PropertyRef Name="TipoUsuarioID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="catBusquedaUsuario">
+          <Key>
+            <PropertyRef Name="BusquedaUsuarioID" />
+          </Key>
+          <Property Name="BusquedaUsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="BusquedaUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="catGenero">
+          <Key>
+            <PropertyRef Name="GeneroID" />
+          </Key>
+          <Property Name="GeneroID" Type="Int32" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblUsuarios" Relationship="imDesarrolloModel.FK_tblUsuarios_catGenero" FromRole="catGenero" ToRole="tblUsuarios" />
+        </EntityType>
+        <EntityType Name="tblMexCP">
+          <Key>
+            <PropertyRef Name="d_codigo" />
+            <PropertyRef Name="id_asenta_cpcons" />
+          </Key>
+          <Property Name="d_codigo" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="d_asenta" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="d_tipo_asenta" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="D_mnpio" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="d_estado" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="d_ciudad" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="d_CP" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_estado" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_oficina" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_CP" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_tipo_asenta" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_mnpio" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="id_asenta_cpcons" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="d_zona" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="c_cve_ciudad" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_tblUsuarios_catGenero">
+          <End Type="imDesarrolloModel.catGenero" Role="catGenero" Multiplicity="0..1" />
+          <End Type="imDesarrolloModel.tblUsuarios" Role="tblUsuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="catGenero">
+              <PropertyRef Name="GeneroID" />
+            </Principal>
+            <Dependent Role="tblUsuarios">
+              <PropertyRef Name="GeneroID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="imDesarrolloModelStoreContainer" CdmEntityContainer="imDesarrolloEntities">
-          <EntitySetMapping Name="catAreas">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catAreas">
-              <MappingFragment StoreEntitySet="catAreas">
-                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
-                <ScalarProperty Name="Area" ColumnName="Area" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catBusquedaUsuario">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catBusquedaUsuario">
-              <MappingFragment StoreEntitySet="catBusquedaUsuario">
-                <ScalarProperty Name="BusquedaUsuarioID" ColumnName="BusquedaUsuarioID" />
-                <ScalarProperty Name="BusquedaUsuario" ColumnName="BusquedaUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catGenero">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catGenero">
-              <MappingFragment StoreEntitySet="catGenero">
-                <ScalarProperty Name="GeneroID" ColumnName="GeneroID" />
-                <ScalarProperty Name="Genero" ColumnName="Genero" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catPerfiles">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catPerfiles">
-              <MappingFragment StoreEntitySet="catPerfiles">
-                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
-                <ScalarProperty Name="Perfil" ColumnName="Perfil" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catTipoEgresos">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catTipoEgresos">
-              <MappingFragment StoreEntitySet="catTipoEgresos">
-                <ScalarProperty Name="TipoEgresoID" ColumnName="TipoEgresoID" />
-                <ScalarProperty Name="TipoEgreso" ColumnName="TipoEgreso" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catTipoRFC">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catTipoRFC">
-              <MappingFragment StoreEntitySet="catTipoRFC">
-                <ScalarProperty Name="TipoRFCID" ColumnName="TipoRFCID" />
-                <ScalarProperty Name="TipoRFC" ColumnName="TipoRFC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catTipoUsuarios">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catTipoUsuarios">
-              <MappingFragment StoreEntitySet="catTipoUsuarios">
-                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
-                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="imDesarrolloModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblAreasPerfil">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblAreasPerfil">
-              <MappingFragment StoreEntitySet="tblAreasPerfil">
-                <ScalarProperty Name="AreaID" ColumnName="AreaID" />
-                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
-                <ScalarProperty Name="AreasPerfilID" ColumnName="AreasPerfilID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCentro">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblCentro">
-              <MappingFragment StoreEntitySet="tblCentro">
-                <ScalarProperty Name="CentroID" ColumnName="CentroID" />
-                <ScalarProperty Name="TipoCentroID" ColumnName="TipoCentroID" />
-                <ScalarProperty Name="CodigoCentro" ColumnName="CodigoCentro" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblClientes">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblClientes">
-              <MappingFragment StoreEntitySet="tblClientes">
-                <ScalarProperty Name="ClientesID" ColumnName="ClientesID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TipoRFCID" ColumnName="TipoRFCID" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblContactoProveedores">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblContactoProveedores">
-              <MappingFragment StoreEntitySet="tblContactoProveedores">
-                <ScalarProperty Name="ContactoProveedorID" ColumnName="ContactoProveedorID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="CalleNumero" ColumnName="CalleNumero" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="ColoniaID" ColumnName="ColoniaID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="ProveedorID" ColumnName="ProveedorID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblContactosCliente">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblContactosCliente">
-              <MappingFragment StoreEntitySet="tblContactosCliente">
-                <ScalarProperty Name="ContactoClienteID" ColumnName="ContactoClienteID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="CalleNumero" ColumnName="CalleNumero" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="ColoniaID" ColumnName="ColoniaID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="ClientesID" ColumnName="ClientesID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblContactosProspecto">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblContactosProspecto">
-              <MappingFragment StoreEntitySet="tblContactosProspecto">
-                <ScalarProperty Name="ContactoProspectoID" ColumnName="ContactoProspectoID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="CalleNumero" ColumnName="CalleNumero" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="ColoniaID" ColumnName="ColoniaID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="ProspectoID" ColumnName="ProspectoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCorporativo">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblCorporativo">
-              <MappingFragment StoreEntitySet="tblCorporativo">
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="CorreoElecronico" ColumnName="CorreoElecronico" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCorreoNotificacion">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblCorreoNotificacion">
-              <MappingFragment StoreEntitySet="tblCorreoNotificacion">
-                <ScalarProperty Name="CorreoNotificacionID" ColumnName="CorreoNotificacionID" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="Asunto" ColumnName="Asunto" />
-                <ScalarProperty Name="SMTP" ColumnName="SMTP" />
-                <ScalarProperty Name="Puerto" ColumnName="Puerto" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblEgresos">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblEgresos">
-              <MappingFragment StoreEntitySet="tblEgresos">
-                <ScalarProperty Name="EgresosID" ColumnName="EgresosID" />
-                <ScalarProperty Name="TipoEgresoID" ColumnName="TipoEgresoID" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Caracteristica" ColumnName="Caracteristica" />
-                <ScalarProperty Name="Costo" ColumnName="Costo" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CentroID" ColumnName="CentroID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblFiscales">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblFiscales">
-              <MappingFragment StoreEntitySet="tblFiscales">
-                <ScalarProperty Name="FiscalID" ColumnName="FiscalID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TipoRFCID" ColumnName="TipoRFCID" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblMediosDeContacto">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblMediosDeContacto">
-              <MappingFragment StoreEntitySet="tblMediosDeContacto">
-                <ScalarProperty Name="MedioDeContactoID" ColumnName="MedioDeContactoID" />
-                <ScalarProperty Name="MedioDeContacto" ColumnName="MedioDeContacto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblMexCP">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblMexCP">
-              <MappingFragment StoreEntitySet="tblMexCP">
-                <ScalarProperty Name="d_codigo" ColumnName="d_codigo" />
-                <ScalarProperty Name="d_asenta" ColumnName="d_asenta" />
-                <ScalarProperty Name="d_tipo_asenta" ColumnName="d_tipo_asenta" />
-                <ScalarProperty Name="D_mnpio" ColumnName="D_mnpio" />
-                <ScalarProperty Name="d_estado" ColumnName="d_estado" />
-                <ScalarProperty Name="d_ciudad" ColumnName="d_ciudad" />
-                <ScalarProperty Name="d_CP" ColumnName="d_CP" />
-                <ScalarProperty Name="c_estado" ColumnName="c_estado" />
-                <ScalarProperty Name="c_oficina" ColumnName="c_oficina" />
-                <ScalarProperty Name="c_CP" ColumnName="c_CP" />
-                <ScalarProperty Name="c_tipo_asenta" ColumnName="c_tipo_asenta" />
-                <ScalarProperty Name="c_mnpio" ColumnName="c_mnpio" />
-                <ScalarProperty Name="id_asenta_cpcons" ColumnName="id_asenta_cpcons" />
-                <ScalarProperty Name="d_zona" ColumnName="d_zona" />
-                <ScalarProperty Name="c_cve_ciudad" ColumnName="c_cve_ciudad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProductos">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblProductos">
-              <MappingFragment StoreEntitySet="tblProductos">
-                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
-                <ScalarProperty Name="CodigoProducto" ColumnName="CodigoProducto" />
-                <ScalarProperty Name="ProductosCategoriaID" ColumnName="ProductosCategoriaID" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Caracteristica" ColumnName="Caracteristica" />
-                <ScalarProperty Name="Costo" ColumnName="Costo" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProductosCategoria">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblProductosCategoria">
-              <MappingFragment StoreEntitySet="tblProductosCategoria">
-                <ScalarProperty Name="ProductosCategoriaID" ColumnName="ProductosCategoriaID" />
-                <ScalarProperty Name="ProductosCategoria" ColumnName="ProductosCategoria" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProspectos">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblProspectos">
-              <MappingFragment StoreEntitySet="tblProspectos">
-                <ScalarProperty Name="ProspectoID" ColumnName="ProspectoID" />
-                <ScalarProperty Name="MedioDeContactoID" ColumnName="MedioDeContactoID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TipoRFCID" ColumnName="TipoRFCID" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblProveedores">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblProveedores">
-              <MappingFragment StoreEntitySet="tblProveedores">
-                <ScalarProperty Name="ProveedorID" ColumnName="ProveedorID" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="TipoRFCID" ColumnName="TipoRFCID" />
-                <ScalarProperty Name="RFC" ColumnName="RFC" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblUbicaciones">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblUbicaciones">
-              <MappingFragment StoreEntitySet="tblUbicaciones">
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="TipoUbicacionID" ColumnName="TipoUbicacionID" />
-                <ScalarProperty Name="CalleNumero" ColumnName="CalleNumero" />
-                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
-                <ScalarProperty Name="ColoniaID" ColumnName="ColoniaID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblUsuarios">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblUsuarios">
-              <MappingFragment StoreEntitySet="tblUsuarios">
+          <EntitySetMapping Name="catMateriaTemaPreguntaRespuestaBitacora">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catMateriaTemaPreguntaRespuestaBitacora">
+              <MappingFragment StoreEntitySet="catMateriaTemaPreguntaRespuestaBitacora">
+                <ScalarProperty Name="TipoPreguntaID" ColumnName="TipoPreguntaID" />
+                <ScalarProperty Name="MateriaTemaPreguntaRespuestaID" ColumnName="MateriaTemaPreguntaRespuestaID" />
                 <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
-                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
-                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
-                <ScalarProperty Name="CodigoUsuario" ColumnName="CodigoUsuario" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="GeneroID" ColumnName="GeneroID" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
                 <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
+                <ScalarProperty Name="MateriaTemaPreguntaID" ColumnName="MateriaTemaPreguntaID" />
+                <ScalarProperty Name="MateriaTemaPreguntaRespuestaBitacoraID" ColumnName="MateriaTemaPreguntaRespuestaBitacoraID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblUsuariosCentros">
-            <EntityTypeMapping TypeName="imDesarrolloModel.tblUsuariosCentros">
-              <MappingFragment StoreEntitySet="tblUsuariosCentros">
+          <EntitySetMapping Name="catMateriaTemaSintesis">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catMateriaTemaSintesis">
+              <MappingFragment StoreEntitySet="catMateriaTemaSintesis">
+                <ScalarProperty Name="MateriaTemaSintesisID" ColumnName="MateriaTemaSintesisID" />
+                <ScalarProperty Name="Sintesis" ColumnName="Sintesis" />
                 <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
-                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
-                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
-                <ScalarProperty Name="CodigoUsuario" ColumnName="CodigoUsuario" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
-                <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="GeneroID" ColumnName="GeneroID" />
-                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
-                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
-                <ScalarProperty Name="Celular" ColumnName="Celular" />
-                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
-                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
                 <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="CentroID" ColumnName="CentroID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catMateria">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catMateria">
-              <MappingFragment StoreEntitySet="catMateria">
-                <ScalarProperty Name="MateriaID" ColumnName="MateriaID" />
-                <ScalarProperty Name="Materia" ColumnName="Materia" />
+                <ScalarProperty Name="MateriaTemaID" ColumnName="MateriaTemaID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2478,29 +546,15 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="catMateriaTemaPreguntaRespuestaBitacora">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catMateriaTemaPreguntaRespuestaBitacora">
-              <MappingFragment StoreEntitySet="catMateriaTemaPreguntaRespuestaBitacora">
-                <ScalarProperty Name="TipoPreguntaID" ColumnName="TipoPreguntaID" />
-                <ScalarProperty Name="MateriaTemaPreguntaRespuestaID" ColumnName="MateriaTemaPreguntaRespuestaID" />
-                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="MateriaTemaPreguntaID" ColumnName="MateriaTemaPreguntaID" />
-                <ScalarProperty Name="MateriaTemaPreguntaRespuestaBitacoraID" ColumnName="MateriaTemaPreguntaRespuestaBitacoraID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catMateriaTemaSintesis">
-            <EntityTypeMapping TypeName="imDesarrolloModel.catMateriaTemaSintesis">
-              <MappingFragment StoreEntitySet="catMateriaTemaSintesis">
-                <ScalarProperty Name="MateriaTemaSintesisID" ColumnName="MateriaTemaSintesisID" />
-                <ScalarProperty Name="Sintesis" ColumnName="Sintesis" />
-                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
-                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
-                <ScalarProperty Name="MateriaTemaID" ColumnName="MateriaTemaID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="imDesarrolloModel.Store.tblPreguntasRespuestas" FunctionImportName="tblPreguntasRespuestas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="imDesarrolloModel.tblPreguntasRespuestas_Result">
+                <ScalarProperty Name="Materia" ColumnName="Materia" />
+                <ScalarProperty Name="DiagnoticoP" ColumnName="DiagnoticoP" />
+                <ScalarProperty Name="CuestionarioP" ColumnName="CuestionarioP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="PreguntasSP" FunctionName="imDesarrolloModel.Store.PreguntasSP">
             <ResultMapping>
               <ComplexTypeMapping TypeName="imDesarrolloModel.PreguntasSP_Result">
@@ -2519,6 +573,93 @@ advertencia 6002: La tabla o vista 'imDesarrollo.dbo.catMateriaTemaSintesis' no 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="catMateria">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catMateria">
+              <MappingFragment StoreEntitySet="catMateria">
+                <ScalarProperty Name="Materia" ColumnName="Materia" />
+                <ScalarProperty Name="MateriaID" ColumnName="MateriaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catPerfiles">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catPerfiles">
+              <MappingFragment StoreEntitySet="catPerfiles">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
+                <ScalarProperty Name="Perfil" ColumnName="Perfil" />
+                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catTipoUsuarios">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catTipoUsuarios">
+              <MappingFragment StoreEntitySet="catTipoUsuarios">
+                <ScalarProperty Name="TipoUsuario" ColumnName="TipoUsuario" />
+                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsuarios">
+            <EntityTypeMapping TypeName="imDesarrolloModel.tblUsuarios">
+              <MappingFragment StoreEntitySet="tblUsuarios">
+                <ScalarProperty Name="CorporativoID" ColumnName="CorporativoID" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="EstatusRegistroID" ColumnName="EstatusRegistroID" />
+                <ScalarProperty Name="UbicacionID" ColumnName="UbicacionID" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="CorreoTrabajo" ColumnName="CorreoTrabajo" />
+                <ScalarProperty Name="CorreoPersonal" ColumnName="CorreoPersonal" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="GeneroID" ColumnName="GeneroID" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="CodigoUsuario" ColumnName="CodigoUsuario" />
+                <ScalarProperty Name="PerfilID" ColumnName="PerfilID" />
+                <ScalarProperty Name="TipoUsuarioID" ColumnName="TipoUsuarioID" />
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catBusquedaUsuario">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catBusquedaUsuario">
+              <MappingFragment StoreEntitySet="catBusquedaUsuario">
+                <ScalarProperty Name="BusquedaUsuario" ColumnName="BusquedaUsuario" />
+                <ScalarProperty Name="BusquedaUsuarioID" ColumnName="BusquedaUsuarioID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="catGenero">
+            <EntityTypeMapping TypeName="imDesarrolloModel.catGenero">
+              <MappingFragment StoreEntitySet="catGenero">
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="GeneroID" ColumnName="GeneroID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMexCP">
+            <EntityTypeMapping TypeName="imDesarrolloModel.tblMexCP">
+              <MappingFragment StoreEntitySet="tblMexCP">
+                <ScalarProperty Name="c_cve_ciudad" ColumnName="c_cve_ciudad" />
+                <ScalarProperty Name="d_zona" ColumnName="d_zona" />
+                <ScalarProperty Name="id_asenta_cpcons" ColumnName="id_asenta_cpcons" />
+                <ScalarProperty Name="c_mnpio" ColumnName="c_mnpio" />
+                <ScalarProperty Name="c_tipo_asenta" ColumnName="c_tipo_asenta" />
+                <ScalarProperty Name="c_CP" ColumnName="c_CP" />
+                <ScalarProperty Name="c_oficina" ColumnName="c_oficina" />
+                <ScalarProperty Name="c_estado" ColumnName="c_estado" />
+                <ScalarProperty Name="d_CP" ColumnName="d_CP" />
+                <ScalarProperty Name="d_ciudad" ColumnName="d_ciudad" />
+                <ScalarProperty Name="d_estado" ColumnName="d_estado" />
+                <ScalarProperty Name="D_mnpio" ColumnName="D_mnpio" />
+                <ScalarProperty Name="d_tipo_asenta" ColumnName="d_tipo_asenta" />
+                <ScalarProperty Name="d_asenta" ColumnName="d_asenta" />
+                <ScalarProperty Name="d_codigo" ColumnName="d_codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

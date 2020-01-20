@@ -17,7 +17,6 @@ namespace webAI_UNAM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public catPerfiles()
         {
-            this.tblAreasPerfil = new HashSet<tblAreasPerfil>();
             this.tblUsuarios = new HashSet<tblUsuarios>();
         }
     
@@ -26,8 +25,6 @@ namespace webAI_UNAM
         public Nullable<int> EstatusRegistroID { get; set; }
         public Nullable<System.DateTime> FechaRegistro { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblAreasPerfil> tblAreasPerfil { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblUsuarios> tblUsuarios { get; set; }
     }

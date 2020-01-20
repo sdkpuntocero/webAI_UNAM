@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: #f9f9fa
+    background-color: #ffeab8 !important;
 }
 
 .flex {
@@ -44,7 +44,7 @@ body {
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 1px solid #3da5f;
+    border: 1px solid #ccaa45;
     border-radius: 0
 }
 

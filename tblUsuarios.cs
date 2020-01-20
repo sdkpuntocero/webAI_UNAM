@@ -33,11 +33,8 @@ namespace webAI_UNAM
         public System.DateTime FechaRegistro { get; set; }
         public System.Guid CorporativoID { get; set; }
     
-        public virtual catGenero catGenero { get; set; }
         public virtual catPerfiles catPerfiles { get; set; }
         public virtual catTipoUsuarios catTipoUsuarios { get; set; }
-        public virtual tblCorporativo tblCorporativo { get; set; }
-        public virtual tblUbicaciones tblUbicaciones { get; set; }
-        public virtual tblUbicaciones tblUbicaciones1 { get; set; }
+        public virtual catGenero catGenero { get; set; }
     }
 }

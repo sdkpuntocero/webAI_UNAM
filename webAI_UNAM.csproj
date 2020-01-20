@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=19.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>packages\AjaxControlToolkit.19.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -98,12 +101,39 @@
     <Content Include="Content\svg-with-js.min.css" />
     <Content Include="Content\v4-shims.css" />
     <Content Include="Content\v4-shims.min.css" />
+    <Content Include="css\bootstrap-4.3.1.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="css\imagehover.min.css" />
+    <Content Include="css\style.css" />
+    <Content Include="Default.aspx" />
     <Content Include="Estilos\Estilos.css" />
+    <Content Include="Estilos\imagehover.min.css" />
     <Content Include="Estilos\Panel.css" />
+    <Content Include="Estilos\style.css" />
+    <Content Include="Estilos\Video.css" />
     <Content Include="Global.asax" />
     <Content Include="Imagenes\ajax-loader.gif" />
+    <Content Include="Imagenes\im.png" />
     <Content Include="Imagenes\PicUNAM\card01.png" />
     <Content Include="Imagenes\PicUNAM\card02.png" />
+    <Content Include="js\bootstrap-4.3.1.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\custom.js" />
+    <Content Include="js\jquery-3.3.1.min.js" />
+    <Content Include="js\jquery.easing.min.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\popper.min.js" />
+    <Content Include="ModeloAnterio.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloAnterio.edmx</DependentUpon>
+      <LastGenOutput>ModeloAnterio.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ModeloAnterio.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloAnterio.edmx</DependentUpon>
+      <LastGenOutput>ModeloAnterio.cs</LastGenOutput>
+    </Content>
     <Content Include="ModeloDatos.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModeloDatos.edmx</DependentUpon>
@@ -152,6 +182,13 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <EntityDeploy Include="ModeloAnterio.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModeloAnterio.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="ModeloAnterio.edmx.diagram">
+      <DependentUpon>ModeloAnterio.edmx</DependentUpon>
+    </Content>
     <EntityDeploy Include="ModeloDatos.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModeloDatos.Designer.cs</LastGenOutput>
@@ -263,9 +300,6 @@
     <Content Include="webfonts\fa-brands-400.eot" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="catAreas.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
     <Compile Include="catBusquedaUsuario.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
@@ -293,17 +327,49 @@
     <Compile Include="catPerfiles.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
-    <Compile Include="catTipoEgresos.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="catTipoRFC.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
     <Compile Include="catTipoUsuarios.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
+    <Compile Include="CodigoPostal.cs" />
+    <Compile Include="ControlUsuarios.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Encrypta.cs" />
+    <Compile Include="fact_perfil.cs">
+      <DependentUpon>ModeloAnterio.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="inf_usr_personales.cs">
+      <DependentUpon>ModeloAnterio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="inf_usr_rh.cs">
+      <DependentUpon>ModeloAnterio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="inf_usuario.cs">
+      <DependentUpon>ModeloAnterio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IzquierdaMedioDerecha.cs" />
+    <Compile Include="ModeloAnterio.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloAnterio.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloAnterio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloAnterio.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModeloAnterio.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloAnterio.edmx</DependentUpon>
     </Compile>
     <Compile Include="ModeloDatos.Context.cs">
       <AutoGen>True</AutoGen>
@@ -331,67 +397,17 @@
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemueveCaracteresEspeciales.cs" />
     <Compile Include="RespuestasSP_Result.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblAreasPerfil.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCentro.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblClientes.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblContactoProveedores.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblContactosCliente.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblContactosProspecto.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCorporativo.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblCorreoNotificacion.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblEgresos.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblFiscales.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblMediosDeContacto.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
     <Compile Include="tblMexCP.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
-    <Compile Include="tblProductos.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblProductosCategoria.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblProspectos.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblProveedores.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblUbicaciones.cs">
+    <Compile Include="tblPreguntasRespuestas_Result.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
     <Compile Include="tblUsuarios.cs">
-      <DependentUpon>ModeloDatos.tt</DependentUpon>
-    </Compile>
-    <Compile Include="tblUsuariosCentros.cs">
       <DependentUpon>ModeloDatos.tt</DependentUpon>
     </Compile>
   </ItemGroup>

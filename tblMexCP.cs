@@ -14,12 +14,6 @@ namespace webAI_UNAM
     
     public partial class tblMexCP
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblMexCP()
-        {
-            this.tblUbicaciones = new HashSet<tblUbicaciones>();
-        }
-    
         public string d_codigo { get; set; }
         public string d_asenta { get; set; }
         public string d_tipo_asenta { get; set; }
@@ -35,8 +29,5 @@ namespace webAI_UNAM
         public string id_asenta_cpcons { get; set; }
         public string d_zona { get; set; }
         public string c_cve_ciudad { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblUbicaciones> tblUbicaciones { get; set; }
     }
 }

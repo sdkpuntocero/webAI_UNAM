@@ -12,17 +12,17 @@ namespace webAI_UNAM
     using System;
     using System.Collections.Generic;
     
-    public partial class tblProductos
+    public partial class inf_usr_rh
     {
-        public System.Guid ProductoID { get; set; }
-        public string CodigoProducto { get; set; }
-        public int ProductosCategoriaID { get; set; }
-        public string Descripcion { get; set; }
-        public string Caracteristica { get; set; }
-        public Nullable<decimal> Costo { get; set; }
-        public Nullable<int> EstatusRegistroID { get; set; }
-        public Nullable<System.DateTime> FechaRegistro { get; set; }
+        public System.Guid usr_rh_ID { get; set; }
+        public System.DateTime fecha_ingreso { get; set; }
+        public int area_ID { get; set; }
+        public int perfil_ID { get; set; }
+        public string comentarios { get; set; }
+        public System.Guid usuario_ID { get; set; }
+        public System.DateTime registro { get; set; }
     
-        public virtual tblProductosCategoria tblProductosCategoria { get; set; }
+        public virtual fact_perfil fact_perfil { get; set; }
+        public virtual inf_usuario inf_usuario { get; set; }
     }
 }

@@ -27,39 +27,32 @@ namespace webAI_UNAM
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<catAreas> catAreas { get; set; }
-        public virtual DbSet<catBusquedaUsuario> catBusquedaUsuario { get; set; }
-        public virtual DbSet<catGenero> catGenero { get; set; }
-        public virtual DbSet<catPerfiles> catPerfiles { get; set; }
-        public virtual DbSet<catTipoEgresos> catTipoEgresos { get; set; }
-        public virtual DbSet<catTipoRFC> catTipoRFC { get; set; }
-        public virtual DbSet<catTipoUsuarios> catTipoUsuarios { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<tblAreasPerfil> tblAreasPerfil { get; set; }
-        public virtual DbSet<tblCentro> tblCentro { get; set; }
-        public virtual DbSet<tblClientes> tblClientes { get; set; }
-        public virtual DbSet<tblContactoProveedores> tblContactoProveedores { get; set; }
-        public virtual DbSet<tblContactosCliente> tblContactosCliente { get; set; }
-        public virtual DbSet<tblContactosProspecto> tblContactosProspecto { get; set; }
-        public virtual DbSet<tblCorporativo> tblCorporativo { get; set; }
-        public virtual DbSet<tblCorreoNotificacion> tblCorreoNotificacion { get; set; }
-        public virtual DbSet<tblEgresos> tblEgresos { get; set; }
-        public virtual DbSet<tblFiscales> tblFiscales { get; set; }
-        public virtual DbSet<tblMediosDeContacto> tblMediosDeContacto { get; set; }
-        public virtual DbSet<tblMexCP> tblMexCP { get; set; }
-        public virtual DbSet<tblProductos> tblProductos { get; set; }
-        public virtual DbSet<tblProductosCategoria> tblProductosCategoria { get; set; }
-        public virtual DbSet<tblProspectos> tblProspectos { get; set; }
-        public virtual DbSet<tblProveedores> tblProveedores { get; set; }
-        public virtual DbSet<tblUbicaciones> tblUbicaciones { get; set; }
-        public virtual DbSet<tblUsuarios> tblUsuarios { get; set; }
-        public virtual DbSet<tblUsuariosCentros> tblUsuariosCentros { get; set; }
-        public virtual DbSet<catMateria> catMateria { get; set; }
+        public virtual DbSet<catMateriaTemaPreguntaRespuestaBitacora> catMateriaTemaPreguntaRespuestaBitacora { get; set; }
+        public virtual DbSet<catMateriaTemaSintesis> catMateriaTemaSintesis { get; set; }
         public virtual DbSet<catMateriaTema> catMateriaTema { get; set; }
         public virtual DbSet<catMateriaTemaPregunta> catMateriaTemaPregunta { get; set; }
         public virtual DbSet<catMateriaTemaPreguntaRespuesta> catMateriaTemaPreguntaRespuesta { get; set; }
-        public virtual DbSet<catMateriaTemaPreguntaRespuestaBitacora> catMateriaTemaPreguntaRespuestaBitacora { get; set; }
-        public virtual DbSet<catMateriaTemaSintesis> catMateriaTemaSintesis { get; set; }
+        public virtual DbSet<catMateria> catMateria { get; set; }
+        public virtual DbSet<catPerfiles> catPerfiles { get; set; }
+        public virtual DbSet<catTipoUsuarios> catTipoUsuarios { get; set; }
+        public virtual DbSet<tblUsuarios> tblUsuarios { get; set; }
+        public virtual DbSet<catBusquedaUsuario> catBusquedaUsuario { get; set; }
+        public virtual DbSet<catGenero> catGenero { get; set; }
+        public virtual DbSet<tblMexCP> tblMexCP { get; set; }
+    
+        [DbFunction("imDesarrolloEntities", "tblPreguntasRespuestas")]
+        public virtual IQueryable<tblPreguntasRespuestas_Result> tblPreguntasRespuestas(Nullable<int> materiaF, Nullable<System.Guid> usuarioFiltrado)
+        {
+            var materiaFParameter = materiaF.HasValue ?
+                new ObjectParameter("MateriaF", materiaF) :
+                new ObjectParameter("MateriaF", typeof(int));
+    
+            var usuarioFiltradoParameter = usuarioFiltrado.HasValue ?
+                new ObjectParameter("UsuarioFiltrado", usuarioFiltrado) :
+                new ObjectParameter("UsuarioFiltrado", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<tblPreguntasRespuestas_Result>("[imDesarrolloEntities].[tblPreguntasRespuestas](@MateriaF, @UsuarioFiltrado)", materiaFParameter, usuarioFiltradoParameter);
+        }
     
         public virtual ObjectResult<PreguntasSP_Result> PreguntasSP(Nullable<int> materiaIDFiltro, Nullable<int> materiaTemaIDFiltro, Nullable<int> tipoPregunta)
         {

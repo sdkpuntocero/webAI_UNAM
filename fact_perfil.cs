@@ -12,18 +12,20 @@ namespace webAI_UNAM
     using System;
     using System.Collections.Generic;
     
-    public partial class tblMediosDeContacto
+    public partial class fact_perfil
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tblMediosDeContacto()
+        public fact_perfil()
         {
-            this.tblProspectos = new HashSet<tblProspectos>();
+            this.inf_usr_rh = new HashSet<inf_usr_rh>();
         }
     
-        public int MedioDeContactoID { get; set; }
-        public string MedioDeContacto { get; set; }
+        public int perfil_ID { get; set; }
+        public string cod_perfil { get; set; }
+        public string perfil_desc { get; set; }
+        public Nullable<System.DateTime> registro { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblProspectos> tblProspectos { get; set; }
+        public virtual ICollection<inf_usr_rh> inf_usr_rh { get; set; }
     }
 }

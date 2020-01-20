@@ -12,24 +12,27 @@ namespace webAI_UNAM
     using System;
     using System.Collections.Generic;
     
-    public partial class catTipoRFC
+    public partial class inf_usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public catTipoRFC()
+        public inf_usuario()
         {
-            this.tblFiscales = new HashSet<tblFiscales>();
-            this.tblProspectos = new HashSet<tblProspectos>();
-            this.tblProveedores = new HashSet<tblProveedores>();
+            this.inf_usr_personales = new HashSet<inf_usr_personales>();
+            this.inf_usr_rh = new HashSet<inf_usr_rh>();
         }
     
-        public int TipoRFCID { get; set; }
-        public string TipoRFC { get; set; }
+        public System.Guid usuario_ID { get; set; }
+        public Nullable<int> est_usr_ID { get; set; }
+        public string cod_usr { get; set; }
+        public string usr { get; set; }
+        public string clave { get; set; }
+        public string correo_corp { get; set; }
+        public System.Guid centro_ID { get; set; }
+        public Nullable<System.DateTime> registro { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblFiscales> tblFiscales { get; set; }
+        public virtual ICollection<inf_usr_personales> inf_usr_personales { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblProspectos> tblProspectos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tblProveedores> tblProveedores { get; set; }
+        public virtual ICollection<inf_usr_rh> inf_usr_rh { get; set; }
     }
 }

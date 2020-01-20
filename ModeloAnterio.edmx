@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_imModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fact_perfil">
+          <Key>
+            <PropertyRef Name="perfil_ID" />
+          </Key>
+          <Property Name="perfil_ID" Type="int" Nullable="false" />
+          <Property Name="cod_perfil" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="perfil_desc" Type="varchar" MaxLength="150" />
+          <Property Name="registro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="inf_usr_personales">
+          <Key>
+            <PropertyRef Name="usr_personales_ID" />
+          </Key>
+          <Property Name="usr_personales_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="50" />
+          <Property Name="apaterno" Type="varchar" MaxLength="50" />
+          <Property Name="amaterno" Type="varchar" MaxLength="50" />
+          <Property Name="genero_ID" Type="int" />
+          <Property Name="estcivil_ID" Type="int" />
+          <Property Name="hijos" Type="int" />
+          <Property Name="cumple" Type="datetime" />
+          <Property Name="licencia" Type="varchar" MaxLength="50" />
+          <Property Name="rfc" Type="varchar" MaxLength="50" />
+          <Property Name="curp" Type="varchar" MaxLength="50" />
+          <Property Name="nss" Type="varchar" MaxLength="50" />
+          <Property Name="usuario_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="registro" Type="datetime" />
+        </EntityType>
+        <EntityType Name="inf_usr_rh">
+          <Key>
+            <PropertyRef Name="usr_rh_ID" />
+          </Key>
+          <Property Name="usr_rh_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="datetime" Nullable="false" />
+          <Property Name="area_ID" Type="int" Nullable="false" />
+          <Property Name="perfil_ID" Type="int" Nullable="false" />
+          <Property Name="comentarios" Type="varchar(max)" />
+          <Property Name="usuario_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="registro" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="inf_usuario">
+          <Key>
+            <PropertyRef Name="usuario_ID" />
+          </Key>
+          <Property Name="usuario_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="est_usr_ID" Type="int" />
+          <Property Name="cod_usr" Type="varchar" MaxLength="50" />
+          <Property Name="usr" Type="varchar" MaxLength="50" />
+          <Property Name="clave" Type="varchar" MaxLength="50" />
+          <Property Name="correo_corp" Type="varchar" MaxLength="50" />
+          <Property Name="centro_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="registro" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_inf_usr_personales_inf_usuario">
+          <End Role="inf_usuario" Type="Self.inf_usuario" Multiplicity="1" />
+          <End Role="inf_usr_personales" Type="Self.inf_usr_personales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inf_usuario">
+              <PropertyRef Name="usuario_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_personales">
+              <PropertyRef Name="usuario_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inf_usr_rh_fact_perfil">
+          <End Role="fact_perfil" Type="Self.fact_perfil" Multiplicity="1" />
+          <End Role="inf_usr_rh" Type="Self.inf_usr_rh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fact_perfil">
+              <PropertyRef Name="perfil_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_rh">
+              <PropertyRef Name="perfil_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inf_usr_rh_inf_usuario">
+          <End Role="inf_usuario" Type="Self.inf_usuario" Multiplicity="1" />
+          <End Role="inf_usr_rh" Type="Self.inf_usr_rh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inf_usuario">
+              <PropertyRef Name="usuario_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_rh">
+              <PropertyRef Name="usuario_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_imModelStoreContainer">
+          <EntitySet Name="fact_perfil" EntityType="Self.fact_perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inf_usr_personales" EntityType="Self.inf_usr_personales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inf_usr_rh" EntityType="Self.inf_usr_rh" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inf_usuario" EntityType="Self.inf_usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_inf_usr_personales_inf_usuario" Association="Self.FK_inf_usr_personales_inf_usuario">
+            <End Role="inf_usuario" EntitySet="inf_usuario" />
+            <End Role="inf_usr_personales" EntitySet="inf_usr_personales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inf_usr_rh_fact_perfil" Association="Self.FK_inf_usr_rh_fact_perfil">
+            <End Role="fact_perfil" EntitySet="fact_perfil" />
+            <End Role="inf_usr_rh" EntitySet="inf_usr_rh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inf_usr_rh_inf_usuario" Association="Self.FK_inf_usr_rh_inf_usuario">
+            <End Role="inf_usuario" EntitySet="inf_usuario" />
+            <End Role="inf_usr_rh" EntitySet="inf_usr_rh" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_imModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="inf_usuario">
+          <Key>
+            <PropertyRef Name="usuario_ID" />
+          </Key>
+          <Property Name="usuario_ID" Type="Guid" Nullable="false" />
+          <Property Name="est_usr_ID" Type="Int32" />
+          <Property Name="cod_usr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="correo_corp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="centro_ID" Type="Guid" Nullable="false" />
+          <Property Name="registro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="inf_usr_personales" Relationship="db_imModel.FK_inf_usr_personales_inf_usuario" FromRole="inf_usuario" ToRole="inf_usr_personales" />
+          <NavigationProperty Name="inf_usr_rh" Relationship="db_imModel.FK_inf_usr_rh_inf_usuario" FromRole="inf_usuario" ToRole="inf_usr_rh" />
+        </EntityType>
+        <EntityContainer Name="db_imEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="inf_usuario" EntityType="Self.inf_usuario" />
+          <EntitySet Name="fact_perfil" EntityType="db_imModel.fact_perfil" />
+          <EntitySet Name="inf_usr_personales" EntityType="db_imModel.inf_usr_personales" />
+          <EntitySet Name="inf_usr_rh" EntityType="db_imModel.inf_usr_rh" />
+          <AssociationSet Name="FK_inf_usr_rh_fact_perfil" Association="db_imModel.FK_inf_usr_rh_fact_perfil">
+            <End Role="fact_perfil" EntitySet="fact_perfil" />
+            <End Role="inf_usr_rh" EntitySet="inf_usr_rh" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inf_usr_personales_inf_usuario" Association="db_imModel.FK_inf_usr_personales_inf_usuario">
+            <End Role="inf_usuario" EntitySet="inf_usuario" />
+            <End Role="inf_usr_personales" EntitySet="inf_usr_personales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inf_usr_rh_inf_usuario" Association="db_imModel.FK_inf_usr_rh_inf_usuario">
+            <End Role="inf_usuario" EntitySet="inf_usuario" />
+            <End Role="inf_usr_rh" EntitySet="inf_usr_rh" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="fact_perfil">
+          <Key>
+            <PropertyRef Name="perfil_ID" />
+          </Key>
+          <Property Name="perfil_ID" Type="Int32" Nullable="false" />
+          <Property Name="cod_perfil" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="perfil_desc" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="registro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="inf_usr_rh" Relationship="db_imModel.FK_inf_usr_rh_fact_perfil" FromRole="fact_perfil" ToRole="inf_usr_rh" />
+        </EntityType>
+        <EntityType Name="inf_usr_personales">
+          <Key>
+            <PropertyRef Name="usr_personales_ID" />
+          </Key>
+          <Property Name="usr_personales_ID" Type="Guid" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="amaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="genero_ID" Type="Int32" />
+          <Property Name="estcivil_ID" Type="Int32" />
+          <Property Name="hijos" Type="Int32" />
+          <Property Name="cumple" Type="DateTime" Precision="3" />
+          <Property Name="licencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="curp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nss" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_ID" Type="Guid" Nullable="false" />
+          <Property Name="registro" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="inf_usuario" Relationship="db_imModel.FK_inf_usr_personales_inf_usuario" FromRole="inf_usr_personales" ToRole="inf_usuario" />
+        </EntityType>
+        <EntityType Name="inf_usr_rh">
+          <Key>
+            <PropertyRef Name="usr_rh_ID" />
+          </Key>
+          <Property Name="usr_rh_ID" Type="Guid" Nullable="false" />
+          <Property Name="fecha_ingreso" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="area_ID" Type="Int32" Nullable="false" />
+          <Property Name="perfil_ID" Type="Int32" Nullable="false" />
+          <Property Name="comentarios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="usuario_ID" Type="Guid" Nullable="false" />
+          <Property Name="registro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="fact_perfil" Relationship="db_imModel.FK_inf_usr_rh_fact_perfil" FromRole="inf_usr_rh" ToRole="fact_perfil" />
+          <NavigationProperty Name="inf_usuario" Relationship="db_imModel.FK_inf_usr_rh_inf_usuario" FromRole="inf_usr_rh" ToRole="inf_usuario" />
+        </EntityType>
+        <Association Name="FK_inf_usr_rh_fact_perfil">
+          <End Type="db_imModel.fact_perfil" Role="fact_perfil" Multiplicity="1" />
+          <End Type="db_imModel.inf_usr_rh" Role="inf_usr_rh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fact_perfil">
+              <PropertyRef Name="perfil_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_rh">
+              <PropertyRef Name="perfil_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inf_usr_personales_inf_usuario">
+          <End Type="db_imModel.inf_usuario" Role="inf_usuario" Multiplicity="1" />
+          <End Type="db_imModel.inf_usr_personales" Role="inf_usr_personales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inf_usuario">
+              <PropertyRef Name="usuario_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_personales">
+              <PropertyRef Name="usuario_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inf_usr_rh_inf_usuario">
+          <End Type="db_imModel.inf_usuario" Role="inf_usuario" Multiplicity="1" />
+          <End Type="db_imModel.inf_usr_rh" Role="inf_usr_rh" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inf_usuario">
+              <PropertyRef Name="usuario_ID" />
+            </Principal>
+            <Dependent Role="inf_usr_rh">
+              <PropertyRef Name="usuario_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_imModelStoreContainer" CdmEntityContainer="db_imEntities">
+          <EntitySetMapping Name="inf_usuario">
+            <EntityTypeMapping TypeName="db_imModel.inf_usuario">
+              <MappingFragment StoreEntitySet="inf_usuario">
+                <ScalarProperty Name="usuario_ID" ColumnName="usuario_ID" />
+                <ScalarProperty Name="est_usr_ID" ColumnName="est_usr_ID" />
+                <ScalarProperty Name="cod_usr" ColumnName="cod_usr" />
+                <ScalarProperty Name="usr" ColumnName="usr" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="correo_corp" ColumnName="correo_corp" />
+                <ScalarProperty Name="centro_ID" ColumnName="centro_ID" />
+                <ScalarProperty Name="registro" ColumnName="registro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fact_perfil">
+            <EntityTypeMapping TypeName="db_imModel.fact_perfil">
+              <MappingFragment StoreEntitySet="fact_perfil">
+                <ScalarProperty Name="registro" ColumnName="registro" />
+                <ScalarProperty Name="perfil_desc" ColumnName="perfil_desc" />
+                <ScalarProperty Name="cod_perfil" ColumnName="cod_perfil" />
+                <ScalarProperty Name="perfil_ID" ColumnName="perfil_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inf_usr_personales">
+            <EntityTypeMapping TypeName="db_imModel.inf_usr_personales">
+              <MappingFragment StoreEntitySet="inf_usr_personales">
+                <ScalarProperty Name="registro" ColumnName="registro" />
+                <ScalarProperty Name="usuario_ID" ColumnName="usuario_ID" />
+                <ScalarProperty Name="nss" ColumnName="nss" />
+                <ScalarProperty Name="curp" ColumnName="curp" />
+                <ScalarProperty Name="rfc" ColumnName="rfc" />
+                <ScalarProperty Name="licencia" ColumnName="licencia" />
+                <ScalarProperty Name="cumple" ColumnName="cumple" />
+                <ScalarProperty Name="hijos" ColumnName="hijos" />
+                <ScalarProperty Name="estcivil_ID" ColumnName="estcivil_ID" />
+                <ScalarProperty Name="genero_ID" ColumnName="genero_ID" />
+                <ScalarProperty Name="amaterno" ColumnName="amaterno" />
+                <ScalarProperty Name="apaterno" ColumnName="apaterno" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="usr_personales_ID" ColumnName="usr_personales_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inf_usr_rh">
+            <EntityTypeMapping TypeName="db_imModel.inf_usr_rh">
+              <MappingFragment StoreEntitySet="inf_usr_rh">
+                <ScalarProperty Name="registro" ColumnName="registro" />
+                <ScalarProperty Name="usuario_ID" ColumnName="usuario_ID" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+                <ScalarProperty Name="perfil_ID" ColumnName="perfil_ID" />
+                <ScalarProperty Name="area_ID" ColumnName="area_ID" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+                <ScalarProperty Name="usr_rh_ID" ColumnName="usr_rh_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
