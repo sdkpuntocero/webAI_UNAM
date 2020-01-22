@@ -420,6 +420,7 @@
             </nav>
             <!-- sidebar-wrapper  -->
             <main class="page-content">
+                 <div class="col-xs-12 col-md-12">
                 <asp:UpdatePanel ID="upContainer" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
                         <div class="container-fluid" runat="server" id="divContainer">
@@ -1138,6 +1139,7 @@
                     <Triggers>
                     </Triggers>
                 </asp:UpdatePanel>
+                     </div>
             </main>
 
             <!-- page-content" -->
