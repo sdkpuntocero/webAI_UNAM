@@ -7,8 +7,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aula / Intelimundo</title>
-    <meta name="description" content="Free Bootstrap Theme by BootstrapMade.com">
-    <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+    <meta name="description" content="Porque Intelimundo es el complemento perfecto para mejorar la vida académica del alumno, desarrollando y favoreciendo habilidades, aptitudes y actitudes ...">
+    <meta name="keywords" content="Cursos, Educación, Capacitación UNAM, Politecnico, UAM">
 
        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Candal|Alegreya+Sans">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
@@ -35,7 +35,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#feature">Caracteristicas</a></li>
+                        <li><a href="#feature">Características</a></li>
                         <li><a href="#organisations">Organización</a></li>
                         <li><a href="#courses">Cursos</a></li>
                         <li><a href="#pricing">Precios</a></li>
@@ -98,7 +98,7 @@
         <!--/ Modal box-->
         <header>
             <div class="overlay"></div>
-            <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <video playsinline="playsinline" autoplay="autoplay" loop="loop">
                 <source src="Material/PROMO INTELIMINDO.mp4" type="video/mp4">
             </video>
             <div class="container h-100">

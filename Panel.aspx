@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
+    <meta name="description" content="Porque Intelimundo es el complemento perfecto para mejorar la vida académica del alumno, desarrollando y favoreciendo habilidades, aptitudes y actitudes ...">
     <title>\ Aula - UNAM</title>
 
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
@@ -17,6 +17,7 @@
     <link href="Estilos/Panel.css" rel="stylesheet" />
     <link href="Estilos/Estilos.css" rel="stylesheet" />
     <script src="Scripts/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery.timers.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
 </head>
 
@@ -54,6 +55,12 @@
             });
 
         });
+        $(function () {
+            $(document).bind("contextmenu", function (e) {
+                return false;
+            });
+        });
+
     </script>
 
     <form runat="server">

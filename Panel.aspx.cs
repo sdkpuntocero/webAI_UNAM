@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -9,12 +11,13 @@ namespace webAI_UNAM
     public partial class Panel : System.Web.UI.Page
     {
         public static Guid empf_ID = Guid.Empty, usr_ID = Guid.Empty;
-        public static int FiltroMateriaID = 0, OrdenMateriaTemaID = 0, FiltroMateriaTemaID = 0, FiltroMateriaTemaPreguntaID = 0, FiltroPreguntaDiagnostico = 0, FiltroPreguntaDiagnosticoID = 0, FiltroPreguntaTest = 0;
+        public static int FiltroMateriaID = 0, OrdenMateriaTemaID = 0, FiltroMateriaTemaID = 0, FiltroMateriaTemaPreguntaID = 0, FiltroPreguntaDiagnostico = 0, FiltroPreguntaTest = 0, FiltroPreguntaID = 0, FiltroPreguntaIDc = 0;
         public static DataSet ds;
         public static DataTable dtPreguntasDiagnostico, dtRespuestasDiagnostico, dtPreguntasCuestionario, dtRespuestasCuestionario;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             try
             {
                 if (!IsPostBack)
@@ -97,58 +100,6 @@ namespace webAI_UNAM
                             divMat002C.Attributes["style"] = Materia001C;
                             lblMat002C.Text = Materia001C.Replace("width: ", "");
 
-                            if (EstatusTemas(2, 1) == false)
-                            {
-                                EstatusMAteria += 1;
-
-                                iMateria0002Tema0001.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 2) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0002.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 3) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0003.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 4) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0004.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 5) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0005.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 6) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0006.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 7) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0007.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 8) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0008.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 9) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0009.Attributes["style"] = "color: green";
-                            }
-                            if (EstatusTemas(2, 10) == false)
-                            {
-                                EstatusMAteria += 1;
-                                iMateria0002Tema0010.Attributes["style"] = "color: green";
-                            }
-
                             if (EstatusMAteria == 10)
                             {
                                 iM002.Attributes["style"] = "color: green";
@@ -162,8 +113,6 @@ namespace webAI_UNAM
                     }
                 }
 
-
-
                 divAC.Attributes["style"] = ((AC * 100) / 1000).ToString() + "%";
 
                 lblAC.Text = ((AC * 100) / 1000).ToString() + "%";
@@ -174,8 +123,8 @@ namespace webAI_UNAM
         {
             try
             {
-                //usr_ID = Guid.Parse(Request.Cookies[1].Value);
-                usr_ID = (Guid)(Session["UsuarioFirmadoID"]);
+                usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+
 
                 using (db_imEntities m_usuario = new db_imEntities())
                 {
@@ -234,9 +183,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 1;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 1;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["FMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -247,7 +198,10 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
             }
 
             play_video.Visible = true;
@@ -271,8 +225,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0001.Attributes["style"] = "color: green";
                 upMateria0002Tema0001.Update();
             }
@@ -320,8 +282,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0002.Attributes["style"] = "color: green";
                 upMateria0002Tema0002.Update();
             }
@@ -369,8 +339,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0003.Attributes["style"] = "color: green";
                 upMateria0002Tema0003.Update();
             }
@@ -417,8 +395,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0004.Attributes["style"] = "color: green";
                 upMateria0002Tema0004.Update();
             }
@@ -465,8 +451,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0005.Attributes["style"] = "color: green";
                 upMateria0002Tema0005.Update();
             }
@@ -513,8 +507,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0006.Attributes["style"] = "color: green";
                 upMateria0002Tema0006.Update();
             }
@@ -561,8 +563,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0007.Attributes["style"] = "color: green";
                 upMateria0002Tema0007.Update();
             }
@@ -609,14 +619,20 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0008.Attributes["style"] = "color: green";
                 upMateria0002Tema0008.Update();
             }
         }
-
-
 
         protected void lkbMateria0002Tema0009_Click(object sender, EventArgs e)
         {
@@ -659,8 +675,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0009.Attributes["style"] = "color: green";
                 upMateria0002Tema0009.Update();
             }
@@ -707,8 +731,16 @@ namespace webAI_UNAM
             }
             else
             {
+                divEbook.Visible = false;
+                upComentario.Update();
+                divResultado.Visible = false;
+                upResultado.Update();
+                upResumen.Update();
+                divComentario.Visible = false;
                 divTema.Visible = false;
+                upTema.Update();
                 divContainer.Visible = true;
+                upContainer.Update();
                 iMateria0002Tema0010.Attributes["style"] = "color: green";
                 upMateria0002Tema0010.Update();
             }
@@ -725,15 +757,14 @@ namespace webAI_UNAM
             divResultado.Visible = false;
             divComentario.Visible = false;
             upDiagnostico.Update();
-            
+
             upResultado.Update();
             upComentario.Update();
-       
+
             divContainer.Visible = true;
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
                 var iModelo = (from t1 in Modelo.catMateria select t1).ToList();
-
 
                 int Materia001TD = 0;
                 int Materia001TC = 0;
@@ -749,13 +780,9 @@ namespace webAI_UNAM
                     {
                         case 1:
 
-
-
                             break;
 
                         case 2:
-
-
 
                             using (imDesarrolloEntities mRespuestas = new imDesarrolloEntities())
                             {
@@ -785,16 +812,12 @@ namespace webAI_UNAM
                             divMat002C.Attributes["style"] = Materia001C;
                             lblMat002C.Text = Materia001C.Replace("width: ", "");
 
-
-
                             break;
 
                         default:
                             break;
                     }
                 }
-
-
 
                 divAC.Attributes["style"] = ((AC * 100) / 1000).ToString() + "%";
 
@@ -805,6 +828,7 @@ namespace webAI_UNAM
 
         private bool EstatusTemas(int MateriaID, int MateriaTemaID)
         {
+            usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
                 var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
@@ -814,6 +838,7 @@ namespace webAI_UNAM
                                where d.MateriaID == MateriaID
                                where d.MateriaOrdenID == MateriaTemaID
                                where a.UsuarioID == usr_ID
+                               where a.TipoPreguntaID == 2
                                select a
                                    ).ToList();
                 if (iModelo.Count == 0)
@@ -855,8 +880,6 @@ namespace webAI_UNAM
 
         protected void btnDiagnostico_Click(object sender, EventArgs e)
         {
-            int PreguntaID;
-
             btnDiagnostico.Visible = false;
             upGuardaDiagnostico.Update();
 
@@ -865,7 +888,7 @@ namespace webAI_UNAM
             DataRow[] foundRows;
             foundRows = dtPreguntasDiagnostico.Select("NuevoID = 1");
 
-            PreguntaID = int.Parse(foundRows[0][2].ToString());
+            FiltroPreguntaID = int.Parse(foundRows[0][2].ToString());
             divDiagnostico.Visible = true;
             lblTemaDiagnostico.Text = foundRows[0][1].ToString();
 
@@ -876,7 +899,7 @@ namespace webAI_UNAM
 
             using (imDesarrolloEntities mTema = new imDesarrolloEntities())
             {
-                var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, PreguntaID)
+                var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaID)
                                   select c).ToList();
 
                 int f1 = 1;
@@ -910,11 +933,9 @@ namespace webAI_UNAM
                     f1 += 1;
                 }
             }
-            FiltroPreguntaDiagnostico = 1;
+
             upDiagnostico.Update();
         }
-
-   
 
         protected void btnGuardaDiagnostico_Click(object sender, EventArgs e)
         {
@@ -925,393 +946,343 @@ namespace webAI_UNAM
             else
             {
                 string filtro;
-                int PreguntaID;
 
-                if (FiltroPreguntaDiagnostico == 5)
+                using (imDesarrolloEntities mTema = new imDesarrolloEntities())
                 {
-                    if (rbRespDiag001.Checked == true || rbRespDiag002.Checked == true || rbRespDiag003.Checked == true || rbRespDiag004.Checked == true)
+                    var iBitacora = (from a in mTema.catMateriaTemaPreguntaRespuestaBitacora
+                                     where a.UsuarioID == usr_ID
+                                     where a.TipoPreguntaID == 1
+                                     select a
+                                      ).ToList();
+
+                    if (iBitacora.Count != 5)
                     {
-                        int intRespuesta = 0;
-                        if (rbRespDiag001.Checked)
+                        if (rbRespDiag001.Checked == true || rbRespDiag002.Checked == true || rbRespDiag003.Checked == true || rbRespDiag004.Checked == true)
                         {
-                            intRespuesta = int.Parse(lblRespDiagID001.Text);
-                        }
-                        else if (rbRespDiag002.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID002.Text);
-                        }
-                        else if (rbRespDiag003.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID003.Text);
-                        }
-                        else if (rbRespDiag004.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID004.Text);
+                            int intRespuesta = 0;
+                            if (rbRespDiag001.Checked)
+                            {
+                                intRespuesta = int.Parse(lblRespDiagID001.Text);
+                            }
+                            else if (rbRespDiag002.Checked)
+                            {
+                                intRespuesta = int.Parse(lblRespDiagID002.Text);
+                            }
+                            else if (rbRespDiag003.Checked)
+                            {
+                                intRespuesta = int.Parse(lblRespDiagID003.Text);
+                            }
+                            else if (rbRespDiag004.Checked)
+                            {
+                                intRespuesta = int.Parse(lblRespDiagID004.Text);
+                            }
+
+                            var iRespuestaF = (from a in mTema.catMateriaTemaPreguntaRespuesta
+                                               where a.MateriaTemaPreguntaRespuestaID == intRespuesta
+                                               select a
+                                                 ).FirstOrDefault();
+                            var i_registro = new imDesarrolloEntities();
+                            usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                            var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                            {
+                                TipoPreguntaID = 1,
+                                UsuarioID = usr_ID,
+                                MateriaTemaPreguntaRespuestaID = intRespuesta,
+                                MateriaTemaPreguntaID = FiltroPreguntaID,
+                                FechaRegistro = DateTime.Now
+                            };
+
+                            i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
+
+                            i_registro.SaveChanges();
                         }
 
-                        using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
-                        {
-                            var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuesta
-                                           where a.MateriaTemaPreguntaRespuestaID == intRespuesta
-                                           select a
-                                             ).FirstOrDefault();
+                        var iBitacoraR = (from a in mTema.catMateriaTemaPreguntaRespuestaBitacora
+                                          where a.UsuarioID == usr_ID
+                                          where a.TipoPreguntaID == 1
+                                          select a
+                                      ).ToList();
 
+                        FiltroPreguntaDiagnostico = iBitacoraR.Count;
+                        FiltroPreguntaDiagnostico += 1;
+                        try
+                        {
                             filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
                             DataRow[] foundRows;
                             foundRows = dtPreguntasDiagnostico.Select(filtro);
-                            PreguntaID = int.Parse(foundRows[0][2].ToString());
+                            FiltroPreguntaID = int.Parse(foundRows[0][2].ToString());
 
-                            var i_registro = new imDesarrolloEntities();
-
-                            var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                            lblTemaDiagnostico.Text = foundRows[0][1].ToString();
+                            var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaID)
+                                              select c).ToList();
+                            int f1 = 1;
+                            foreach (var iResp in iRespuesta)
                             {
-                                TipoPreguntaID = 1,
-                                UsuarioID = usr_ID,
-                                MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                MateriaTemaPreguntaID = PreguntaID,
-                                FechaRegistro = DateTime.Now
-                            };
+                                string strlbl = "lblRespuesta00" + f1;
 
-                            i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
+                                if (strlbl == "lblRespuesta001")
+                                {
+                                    lblRespDiag001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblRespDiagID001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
 
-                            i_registro.SaveChanges();
+                                if (strlbl == "lblRespuesta002")
+                                {
+                                    lblRespDiag002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblRespDiagID002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
+
+                                if (strlbl == "lblRespuesta003")
+                                {
+                                    lblRespDiag003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblRespDiagID003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
+
+                                if (strlbl == "lblRespuesta004")
+                                {
+                                    lblRespDiag004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblRespDiagID004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
+                                f1 += 1;
+                            }
+
+                            rbRespDiag001.Checked = false;
+                            rbRespDiag002.Checked = false;
+                            rbRespDiag003.Checked = false;
+                            rbRespDiag004.Checked = false;
+
+                            upDiagnostico.Update();
+                        }
+                        catch (Exception)
+                        {
+                            usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                            var iMateria = (from a in mTema.catMateriaTemaPreguntaRespuestaBitacora
+                                            join b in mTema.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
+                                            join c in mTema.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                                            join d in mTema.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                                            where a.TipoPreguntaID == 1
+                                            where b.Respuesta == true
+                                            where a.UsuarioID == usr_ID
+                                            where d.MateriaTemaID == FiltroMateriaTemaID
+                                            where d.MateriaID == FiltroMateriaID
+
+                                            select a).ToList();
+
+                            int intPunt = iMateria.Count;
+                            int intCal = (intPunt * 2);
+
+                            if (FiltroMateriaID == 1)
+                            {
+                                int MatTemaID = FiltroMateriaTemaID;
+
+                                switch (MatTemaID)
+                                {
+                                    case 1:
+
+                                        iM001Tema001.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0001.Update();
+                                        break;
+
+                                    case 2:
+
+                                        iM001Tema002.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0002.Update();
+                                        break;
+
+                                    case 3:
+
+                                        iM001Tema003.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0003.Update();
+                                        break;
+
+                                    case 4:
+
+                                        iM001Tema004.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0004.Update();
+                                        break;
+
+                                    case 5:
+
+                                        iM001Tema005.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0005.Update();
+                                        break;
+
+                                    case 6:
+
+                                        iM001Tema006.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0006.Update();
+                                        break;
+
+                                    case 7:
+
+                                        iM001Tema007.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0007.Update();
+                                        break;
+
+                                    case 8:
+
+                                        iM001Tema008.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0008.Update();
+                                        break;
+
+                                    case 9:
+
+                                        iM001Tema009.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0009.Update();
+                                        break;
+
+                                    case 10:
+
+                                        iM001Tema010.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0010.Update();
+                                        break;
+
+                                    case 11:
+
+                                        iM001Tema0011.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0011.Update();
+                                        break;
+
+                                    case 12:
+
+                                        iM001Tema012.Attributes["style"] = "color: yellow";
+
+                                        upMateria0001Tema0012.Update();
+                                        break;
+                                }
+                            }
+                            if (FiltroMateriaID == 2)
+                            {
+                                int MatTemaID = OrdenMateriaTemaID;
+
+                                switch (MatTemaID)
+                                {
+                                    case 1:
+
+                                        iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0001.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema1/index.html";
+                                        break;
+
+                                    case 2:
+
+                                        iMateria0002Tema0002.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0002.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema2/index.html";
+                                        break;
+
+                                    case 3:
+
+                                        iMateria0002Tema0003.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0003.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema3/index.html";
+                                        break;
+
+                                    case 4:
+
+                                        iMateria0002Tema0004.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0004.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema4/index.html";
+                                        break;
+
+                                    case 5:
+
+                                        iMateria0002Tema0005.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0005.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema5/index.html";
+                                        break;
+
+                                    case 6:
+
+                                        iMateria0002Tema0006.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0006.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema6/index.html";
+                                        break;
+
+                                    case 7:
+
+                                        iMateria0002Tema0007.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0007.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema7/index.html";
+                                        break;
+
+                                    case 8:
+
+                                        iMateria0002Tema0008.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0008.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema8/index.html";
+                                        break;
+
+                                    case 9:
+
+                                        iMateria0002Tema0009.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0009.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema9/index.html";
+                                        break;
+
+                                    case 10:
+
+                                        iMateria0002Tema0010.Attributes["style"] = "color: yellow";
+
+                                        upMateria0002Tema0010.Update();
+
+                                        iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema10/index.html";
+                                        break;
+                                }
+                            }
+
+                            lblPuntDiag.Text = intCal.ToString();
+
+                            divDiagnostico.Visible = false;
+
+                            divEbook.Visible = true;
+                            divComentario.Visible = true;
+
+                            FiltroPreguntaDiagnostico = 0;
+
+                            upDiagnostico.Update();
+                            upComentario.Update();
+                            upTema.Update();
+
+                            Mensaje("Diagnostico Terminado");
                         }
                     }
-                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
-                    {
-                        var iMateria = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
-                                        join b in mMateria.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
-                                        join c in mMateria.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
-                                        join d in mMateria.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
-                                        where a.TipoPreguntaID == 1
-                                        where b.Respuesta == true
-                                        where a.UsuarioID == usr_ID
-                                        where d.MateriaTemaID == FiltroMateriaTemaID
-                                        where d.MateriaID == FiltroMateriaID
-
-                                        select a).ToList();
-
-                        int intPunt = iMateria.Count;
-                        int intCal = (intPunt * 2);
-
-                        if (FiltroMateriaID == 1)
-                        {
-                            int MatTemaID = FiltroMateriaTemaID;
-
-                            switch (MatTemaID)
-                            {
-                                case 1:
-
-                                    iM001Tema001.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0001.Update();
-                                    break;
-
-                                case 2:
-
-                                    iM001Tema002.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0002.Update();
-                                    break;
-
-                                case 3:
-
-                                    iM001Tema003.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0003.Update();
-                                    break;
-
-                                case 4:
-
-                                    iM001Tema004.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0004.Update();
-                                    break;
-
-                                case 5:
-
-                                    iM001Tema005.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0005.Update();
-                                    break;
-
-                                case 6:
-
-                                    iM001Tema006.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0006.Update();
-                                    break;
-
-                                case 7:
-
-                                    iM001Tema007.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0007.Update();
-                                    break;
-
-                                case 8:
-
-                                    iM001Tema008.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0008.Update();
-                                    break;
-
-                                case 9:
-
-                                    iM001Tema009.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0009.Update();
-                                    break;
-
-                                case 10:
-
-                                    iM001Tema010.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0010.Update();
-                                    break;
-
-                                case 11:
-
-                                    iM001Tema0011.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0011.Update();
-                                    break;
-
-                                case 12:
-
-                                    iM001Tema012.Attributes["style"] = "color: yellow";
-
-                                    upMateria0001Tema0012.Update();
-                                    break;
-                            }
-                        }
-                        if (FiltroMateriaID == 2)
-                        {
-                            int MatTemaID = OrdenMateriaTemaID;
-
-                            switch (MatTemaID)
-                            {
-                                case 1:
-
-                                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0001.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema1/index.html";
-                                    break;
-
-                                case 2:
-
-                                    iMateria0002Tema0002.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0002.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema2/index.html";
-                                    break;
-
-                                case 3:
-
-                                    iMateria0002Tema0003.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0003.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema3/index.html";
-                                    break;
-
-                                case 4:
-
-                                    iMateria0002Tema0004.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0004.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema4/index.html";
-                                    break;
-
-                                case 5:
-
-                                    iMateria0002Tema0005.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0005.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema5/index.html";
-                                    break;
-
-                                case 6:
-
-                                    iMateria0002Tema0006.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0006.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema6/index.html";
-                                    break;
-
-                                case 7:
-
-                                    iMateria0002Tema0007.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0007.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema7/index.html";
-                                    break;
-
-                                case 8:
-
-                                    iMateria0002Tema0008.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0008.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema8/index.html";
-                                    break;
-
-                                case 9:
-
-                                    iMateria0002Tema0009.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0009.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema9/index.html";
-                                    break;
-
-                                case 10:
-
-                                    iMateria0002Tema0010.Attributes["style"] = "color: yellow";
-
-                                    upMateria0002Tema0010.Update();
-
-                                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema10/index.html";
-                                    break;
-                            }
-                        }
-
-                        lblPuntDiag.Text = intCal.ToString();
-
-                        divDiagnostico.Visible = false;
-
-                        Mensaje("Cuestionario Terminado");
-
-
-                        divEbook.Visible = true;
-                        divComentario.Visible = true;
-
-                        FiltroPreguntaDiagnostico = 0;
-
-                        upDiagnostico.Update();
-                        upComentario.Update();
-                        upTema.Update();
-                    }
-
-                    Mensaje("Terminado");
-                }
-                else
-                {
-                    filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
-                    DataRow[] foundRows;
-                    foundRows = dtPreguntasDiagnostico.Select(filtro);
-                    PreguntaID = int.Parse(foundRows[0][2].ToString());
-                    if (rbRespDiag001.Checked == true || rbRespDiag002.Checked == true || rbRespDiag003.Checked == true || rbRespDiag004.Checked == true)
-                    {
-                        int intRespuesta = 0;
-                        if (rbRespDiag001.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID001.Text);
-                        }
-                        else if (rbRespDiag002.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID002.Text);
-                        }
-                        else if (rbRespDiag003.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID003.Text);
-                        }
-                        else if (rbRespDiag004.Checked)
-                        {
-                            intRespuesta = int.Parse(lblRespDiagID004.Text);
-                        }
-
-                        using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
-                        {
-                            var iRespuesta = (from a in mMateria.catMateriaTemaPreguntaRespuesta
-                                              where a.MateriaTemaPreguntaRespuestaID == intRespuesta
-                                              select a
-                                             ).FirstOrDefault();
-                            var i_registro = new imDesarrolloEntities();
-
-                            var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
-                            {
-                                TipoPreguntaID = 1,
-                                UsuarioID = usr_ID,
-                                MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                MateriaTemaPreguntaID = PreguntaID,
-                                FechaRegistro = DateTime.Now
-                            };
-
-                            i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
-
-                            i_registro.SaveChanges();
-                        }
-                    }
-
-                    FiltroPreguntaDiagnostico += 1;
-                    filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
-
-                    foundRows = dtPreguntasDiagnostico.Select(filtro);
-                    divDiagnostico.Visible = true;
-                    lblTemaDiagnostico.Text = foundRows[0][1].ToString();
-                    PreguntaID = int.Parse(foundRows[0][2].ToString());
-
-                    using (imDesarrolloEntities mTema = new imDesarrolloEntities())
-                    {
-                        var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, PreguntaID)
-                                          select c).ToList();
-                        int f1 = 1;
-                        foreach (var iResp in iRespuesta)
-                        {
-                            string strlbl = "lblRespuesta00" + f1;
-
-                            if (strlbl == "lblRespuesta001")
-                            {
-                                lblRespDiag001.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblRespDiagID001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-
-                            if (strlbl == "lblRespuesta002")
-                            {
-                                lblRespDiag002.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblRespDiagID002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-
-                            if (strlbl == "lblRespuesta003")
-                            {
-                                lblRespDiag003.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblRespDiagID003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-
-                            if (strlbl == "lblRespuesta004")
-                            {
-                                lblRespDiag004.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblRespDiagID004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-                            f1 += 1;
-                        }
-
-                        if (iRespuesta.Count == 3)
-                        {
-                            rbRespDiag004.Visible = false;
-                        }
-                    }
-
-                    rbRespDiag001.Checked = false;
-                    rbRespDiag002.Checked = false;
-                    rbRespDiag003.Checked = false;
-                    rbRespDiag004.Checked = false;
-
-                    upDiagnostico.Update();
                 }
             }
         }
 
         protected void btnEnviar_Click(object sender, EventArgs e)
         {
+            usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
             divResultado.Visible = false;
             using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
             {
@@ -1322,7 +1293,7 @@ namespace webAI_UNAM
 
                 string strcomment1 = Request.Form["comment1"];
                 var i_registro = new imDesarrolloEntities();
-
+                usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
                 var dn_usr = new catMateriaTemaSintesis
                 {
                     UsuarioID = usr_ID,
@@ -1339,14 +1310,12 @@ namespace webAI_UNAM
 
                 divPreguntas.Visible = true;
 
-                int PreguntaID;
-
-                dtPreguntasDiagnostico = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+                dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
 
                 DataRow[] foundRows;
-                foundRows = dtPreguntasDiagnostico.Select("NuevoID = 1");
+                foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
 
-                PreguntaID = int.Parse(foundRows[0][2].ToString());
+                FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
 
                 lblPregunta.Text = foundRows[0][1].ToString();
 
@@ -1355,7 +1324,7 @@ namespace webAI_UNAM
                 radioR3.Checked = false;
                 radioR4.Checked = false;
 
-                var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, PreguntaID)
+                var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
                                    select c).ToList();
 
                 int f1 = 1;
@@ -1388,10 +1357,6 @@ namespace webAI_UNAM
                     }
                     f1 += 1;
                 }
-
-                FiltroPreguntaDiagnostico = 1;
-                FiltroPreguntaTest = int.Parse(foundRows.Length.ToString());
-
                 upPreguntas.Update();
             }
         }
@@ -1404,439 +1369,390 @@ namespace webAI_UNAM
             }
             else
             {
-                string filtro;
-                int PreguntaID = 0;
-                filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
-                DataRow[] foundRows;
-                foundRows = dtPreguntasDiagnostico.Select(filtro);
-                divDiagnostico.Visible = true;
-                lblPregunta.Text = foundRows[0][1].ToString();
-                PreguntaID = int.Parse(foundRows[0][2].ToString());
-                if (FiltroPreguntaDiagnostico == dtPreguntasDiagnostico.Rows.Count)
+                using (imDesarrolloEntities mTema = new imDesarrolloEntities())
                 {
-                    if (radioR1.Checked == true || radioR2.Checked == true || radioR3.Checked == true || radioR4.Checked == true)
+                    var iBitacora = (from a in mTema.catMateriaTemaPreguntaRespuestaBitacora
+                                     where a.UsuarioID == usr_ID
+                                     where a.TipoPreguntaID == 2
+                                     select a
+                                      ).ToList();
+                    if (iBitacora.Count != dtPreguntasCuestionario.Rows.Count)
                     {
-                        int intRespuesta = 0;
-                        if (radioR1.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp001.Text);
-                        }
-                        else if (radioR2.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp002.Text);
-                        }
-                        else if (radioR3.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp003.Text);
-                        }
-                        else if (radioR4.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp004.Text);
-                        }
 
-                        using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                        if (radioR1.Checked == true || radioR2.Checked == true || radioR3.Checked == true || radioR4.Checked == true)
                         {
-                            var iRespuesta = (from a in mMateria.catMateriaTemaPreguntaRespuesta
-                                              where a.MateriaTemaPreguntaRespuestaID == intRespuesta
-                                              select a
-                                             ).FirstOrDefault();
-
-                            bool vRespuesta = bool.Parse(iRespuesta.Respuesta.ToString());
-
-                            if (vRespuesta)
+                            int intRespuesta = 0;
+                            if (radioR1.Checked)
                             {
-                                var i_registro = new imDesarrolloEntities();
+                                intRespuesta = int.Parse(lblResp001.Text);
+                            }
+                            else if (radioR2.Checked)
+                            {
+                                intRespuesta = int.Parse(lblResp002.Text);
+                            }
+                            else if (radioR3.Checked)
+                            {
+                                intRespuesta = int.Parse(lblResp003.Text);
+                            }
+                            else if (radioR4.Checked)
+                            {
+                                intRespuesta = int.Parse(lblResp004.Text);
+                            }
 
-                                var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                            using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                            {
+                                var iRespuestaf = (from a in mMateria.catMateriaTemaPreguntaRespuesta
+                                                   where a.MateriaTemaPreguntaRespuestaID == intRespuesta
+                                                   select a
+                                                 ).FirstOrDefault();
+
+                                bool vRespuesta = bool.Parse(iRespuestaf.Respuesta.ToString());
+
+                                if (vRespuesta)
                                 {
-                                    TipoPreguntaID = 2,
-                                    UsuarioID = usr_ID,
-                                    MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                    MateriaTemaPreguntaID = PreguntaID,
-                                    FechaRegistro = DateTime.Now
-                                };
+                                    var i_registro = new imDesarrolloEntities();
+                                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                                    var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                                    {
+                                        TipoPreguntaID = 2,
+                                        UsuarioID = usr_ID,
+                                        MateriaTemaPreguntaRespuestaID = intRespuesta,
+                                        MateriaTemaPreguntaID = FiltroPreguntaIDc,
+                                        FechaRegistro = DateTime.Now
+                                    };
 
-                                i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
+                                    i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
 
-                                i_registro.SaveChanges();
-                            }
-                            else
-                            {
-                                var i_registro = new imDesarrolloEntities();
-
-                                var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                                    i_registro.SaveChanges();
+                                }
+                                else
                                 {
-                                    TipoPreguntaID = 2,
-                                    UsuarioID = usr_ID,
-                                    MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                    MateriaTemaPreguntaID = PreguntaID,
-                                    FechaRegistro = DateTime.Now
-                                };
+                                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                                    var i_registro = new imDesarrolloEntities();
 
-                                i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
+                                    var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                                    {
+                                        TipoPreguntaID = 2,
+                                        UsuarioID = usr_ID,
+                                        MateriaTemaPreguntaRespuestaID = intRespuesta,
+                                        MateriaTemaPreguntaID = FiltroPreguntaIDc,
+                                        FechaRegistro = DateTime.Now
+                                    };
 
-                                i_registro.SaveChanges();
-                            }
-                        }
-                    }
-                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
-                    {
-                        var iMateria = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
-                                        join b in mMateria.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
-                                        join c in mMateria.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
-                                        join d in mMateria.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
-                                        where a.TipoPreguntaID == 2
-                                        where b.Respuesta == true
-                                        where a.UsuarioID == usr_ID
-                                        where d.MateriaTemaID == FiltroMateriaTemaID
-                                        where d.MateriaID == FiltroMateriaID
-                                        select a).ToList();
+                                    i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
 
-                        int intPunt = iMateria.Count;
-                        int intCal = (intPunt * 10) / dtPreguntasDiagnostico.Rows.Count;
+                                    i_registro.SaveChanges();
+                                }
 
-                        if (FiltroMateriaID == 1)
-                        {
-                            int MatTemaID = FiltroMateriaTemaID;
 
-                            switch (MatTemaID)
-                            {
-                                case 1:
-
-                                    iM001Tema001.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0001.Update();
-                                    break;
-
-                                case 2:
-
-                                    iM001Tema002.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0002.Update();
-                                    break;
-
-                                case 3:
-
-                                    iM001Tema003.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0003.Update();
-                                    break;
-
-                                case 4:
-
-                                    iM001Tema004.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0004.Update();
-                                    break;
-
-                                case 5:
-
-                                    iM001Tema005.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0005.Update();
-                                    break;
-
-                                case 6:
-
-                                    iM001Tema006.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0006.Update();
-                                    break;
-
-                                case 7:
-
-                                    iM001Tema007.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0007.Update();
-                                    break;
-
-                                case 8:
-
-                                    iM001Tema008.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0008.Update();
-                                    break;
-
-                                case 9:
-
-                                    iM001Tema009.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0009.Update();
-                                    break;
-
-                                case 10:
-
-                                    iM001Tema010.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0010.Update();
-                                    break;
-
-                                case 11:
-
-                                    iM001Tema0011.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0011.Update();
-                                    break;
-
-                                case 12:
-
-                                    iM001Tema012.Attributes["style"] = "color: green";
-
-                                    upMateria0001Tema0012.Update();
-                                    break;
-                            }
-                        }
-                        if (FiltroMateriaID == 2)
-                        {
-                            int MatTemaID = OrdenMateriaTemaID;
-
-                            switch (MatTemaID)
-                            {
-                                case 1:
-
-                                    iMateria0002Tema0001.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0001.Update();
-                                    break;
-
-                                case 2:
-
-                                    iMateria0002Tema0002.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0002.Update();
-                                    break;
-
-                                case 3:
-
-                                    iMateria0002Tema0003.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0003.Update();
-                                    break;
-
-                                case 4:
-
-                                    iMateria0002Tema0004.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0004.Update();
-                                    break;
-
-                                case 5:
-                                    iMateria0002Tema0005.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0005.Update();
-                                    break;
-
-                                case 6:
-
-                                    iMateria0002Tema0006.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0006.Update();
-                                    break;
-
-                                case 7:
-
-                                    iMateria0002Tema0007.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0007.Update();
-                                    break;
-
-                                case 8:
-
-                                    iMateria0002Tema0008.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0008.Update();
-
-                                    break;
-
-                                case 9:
-
-                                    iMateria0002Tema0009.Attributes["style"] = "color: green";
-
-                                    upMateria0002Tema0009.Update();
-
-                                    break;
-
-                                case 10:
-
-                                    iMateria0002Tema0010.Attributes["style"] = "color: green";
-                                    iM002.Attributes["style"] = "color: green";
-                                    upMateria0002Tema0010.Update();
-                                    upMateria0002.Update();
-
-                                    break;
                             }
                         }
 
-                        lblPuntuacion.Text = intCal.ToString();
+                        var iBitacoraR = (from a in mTema.catMateriaTemaPreguntaRespuestaBitacora
+                                          where a.UsuarioID == usr_ID
+                                          where a.TipoPreguntaID == 2
+                                          select a
+                              ).ToList();
+                        string filtro;
+                        FiltroPreguntaTest = iBitacoraR.Count;
 
-                        divDiagnostico.Visible = false;
+                        FiltroPreguntaTest += 1;
 
-                        Mensaje("Cuestionario Terminado");
-
-                        divPreguntas.Visible = false;
-
-                        var iMateriaf = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
-                                         join b in mMateria.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
-                                         join c in mMateria.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
-                                         join d in mMateria.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
-                                         where a.TipoPreguntaID == 2
-                                         where a.UsuarioID == usr_ID
-                                         where d.MateriaTemaID == FiltroMateriaTemaID
-                                         where d.MateriaID == FiltroMateriaID
-
-                                         select new
-                                         {
-                                             c.MateriaTemaPregunta,
-                                             b.MateriaTemaPreguntaRespuesta,
-                                             b.Respuesta,
-                                             b.Justificacion
-                                         }
-                                       ).ToList();
-
-                        if (iMateriaf.Count != 0)
+                        try
                         {
-                            gvResultados.DataSource = iMateriaf;
-                            gvResultados.DataBind();
-                            gvResultados.Visible = true;
-                        }
 
-                        divResultado.Visible = true;
-                        upResultado.Update();
-                        upPreguntas.Update();
+                            filtro = "NuevoID = " + FiltroPreguntaTest.ToString();
 
-                        upTema.Update();
-                    }
 
-                    Mensaje("Terminado");
-                }
-                else
-                {
-                    filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
 
-                    foundRows = dtPreguntasDiagnostico.Select(filtro);
+                            DataRow[] foundRows;
+                            foundRows = dtPreguntasCuestionario.Select(filtro);
+                            divDiagnostico.Visible = true;
+                            lblPregunta.Text = foundRows[0][1].ToString();
+                            FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
 
-                    lblPregunta.Text = foundRows[0][1].ToString();
-                    PreguntaID = int.Parse(foundRows[0][2].ToString());
-                    if (radioR1.Checked == true || radioR2.Checked == true || radioR3.Checked == true || radioR4.Checked == true)
-                    {
-                        int intRespuesta = 0;
-                        if (radioR1.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp001.Text);
-                        }
-                        else if (radioR2.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp002.Text);
-                        }
-                        else if (radioR3.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp003.Text);
-                        }
-                        else if (radioR4.Checked)
-                        {
-                            intRespuesta = int.Parse(lblResp004.Text);
-                        }
+                            var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                              select c).ToList();
 
-                        using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
-                        {
-                            var iRespuesta = (from a in mMateria.catMateriaTemaPreguntaRespuesta
-                                              where a.MateriaTemaPreguntaRespuestaID == intRespuesta
-                                              select a
-                                             ).FirstOrDefault();
-
-                            bool vRespuesta = bool.Parse(iRespuesta.Respuesta.ToString());
-
-                            if (vRespuesta)
+                            int f1 = 1;
+                            foreach (var iResp in iRespuesta)
                             {
-                                var i_registro = new imDesarrolloEntities();
+                                string strlbl = "lblRespuesta00" + f1;
 
-                                var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                                if (strlbl == "lblRespuesta001")
                                 {
-                                    TipoPreguntaID = 2,
-                                    UsuarioID = usr_ID,
-                                    MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                    MateriaTemaPreguntaID = PreguntaID,
-                                    FechaRegistro = DateTime.Now
-                                };
+                                    lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
 
-                                i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
-
-                                i_registro.SaveChanges();
-                            }
-                            else
-                            {
-                                var i_registro = new imDesarrolloEntities();
-
-                                var dn_usr = new catMateriaTemaPreguntaRespuestaBitacora
+                                if (strlbl == "lblRespuesta002")
                                 {
-                                    TipoPreguntaID = 2,
-                                    UsuarioID = usr_ID,
-                                    MateriaTemaPreguntaRespuestaID = intRespuesta,
-                                    MateriaTemaPreguntaID = PreguntaID,
-                                    FechaRegistro = DateTime.Now
-                                };
+                                    lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
 
-                                i_registro.catMateriaTemaPreguntaRespuestaBitacora.Add(dn_usr);
+                                if (strlbl == "lblRespuesta003")
+                                {
+                                    lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
 
-                                i_registro.SaveChanges();
+                                if (strlbl == "lblRespuesta004")
+                                {
+                                    lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                    lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                }
+                                f1 += 1;
+
+                                if (iRespuesta.Count == 3)
+                                {
+                                    radioR4.Visible = false;
+                                }
                             }
+
+                            radioR1.Checked = false;
+                            radioR2.Checked = false;
+                            radioR3.Checked = false;
+                            radioR4.Checked = false;
+
+                            upPreguntas.Update();
                         }
-                    }
-                    FiltroPreguntaDiagnostico += 1;
-                    filtro = "NuevoID = " + FiltroPreguntaDiagnostico.ToString();
-
-                    foundRows = dtPreguntasDiagnostico.Select(filtro);
-
-                    lblPregunta.Text = foundRows[0][1].ToString();
-                    PreguntaID = int.Parse(foundRows[0][2].ToString());
-                    using (imDesarrolloEntities mTema = new imDesarrolloEntities())
-                    {
-                        var iRespuesta = (from c in mTema.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, PreguntaID)
-                                          select c).ToList();
-
-                        int f1 = 1;
-                        foreach (var iResp in iRespuesta)
+                        catch (Exception)
                         {
-                            string strlbl = "lblRespuesta00" + f1;
 
-                            if (strlbl == "lblRespuesta001")
+                            usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                            using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
                             {
-                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                                var iMateria = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
+                                                join b in mMateria.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
+                                                join c in mMateria.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                                                join d in mMateria.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                                                where a.TipoPreguntaID == 2
+                                                where b.Respuesta == true
+                                                where a.UsuarioID == usr_ID
+                                                where d.MateriaTemaID == FiltroMateriaTemaID
+                                                where d.MateriaID == FiltroMateriaID
+                                                select a).ToList();
+
+                                int intPunt = iMateria.Count;
+                                int intCal = (intPunt * 10) / dtPreguntasCuestionario.Rows.Count;
+
+                                if (FiltroMateriaID == 1)
+                                {
+                                    int MatTemaID = FiltroMateriaTemaID;
+
+                                    switch (MatTemaID)
+                                    {
+                                        case 1:
+
+                                            iM001Tema001.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0001.Update();
+                                            break;
+
+                                        case 2:
+
+                                            iM001Tema002.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0002.Update();
+                                            break;
+
+                                        case 3:
+
+                                            iM001Tema003.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0003.Update();
+                                            break;
+
+                                        case 4:
+
+                                            iM001Tema004.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0004.Update();
+                                            break;
+
+                                        case 5:
+
+                                            iM001Tema005.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0005.Update();
+                                            break;
+
+                                        case 6:
+
+                                            iM001Tema006.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0006.Update();
+                                            break;
+
+                                        case 7:
+
+                                            iM001Tema007.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0007.Update();
+                                            break;
+
+                                        case 8:
+
+                                            iM001Tema008.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0008.Update();
+                                            break;
+
+                                        case 9:
+
+                                            iM001Tema009.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0009.Update();
+                                            break;
+
+                                        case 10:
+
+                                            iM001Tema010.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0010.Update();
+                                            break;
+
+                                        case 11:
+
+                                            iM001Tema0011.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0011.Update();
+                                            break;
+
+                                        case 12:
+
+                                            iM001Tema012.Attributes["style"] = "color: green";
+
+                                            upMateria0001Tema0012.Update();
+                                            break;
+                                    }
+                                }
+                                if (FiltroMateriaID == 2)
+                                {
+                                    int MatTemaID = OrdenMateriaTemaID;
+
+                                    switch (MatTemaID)
+                                    {
+                                        case 1:
+
+                                            iMateria0002Tema0001.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0001.Update();
+                                            break;
+
+                                        case 2:
+
+                                            iMateria0002Tema0002.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0002.Update();
+                                            break;
+
+                                        case 3:
+
+                                            iMateria0002Tema0003.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0003.Update();
+                                            break;
+
+                                        case 4:
+
+                                            iMateria0002Tema0004.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0004.Update();
+                                            break;
+
+                                        case 5:
+                                            iMateria0002Tema0005.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0005.Update();
+                                            break;
+
+                                        case 6:
+
+                                            iMateria0002Tema0006.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0006.Update();
+                                            break;
+
+                                        case 7:
+
+                                            iMateria0002Tema0007.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0007.Update();
+                                            break;
+
+                                        case 8:
+
+                                            iMateria0002Tema0008.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0008.Update();
+
+                                            break;
+
+                                        case 9:
+
+                                            iMateria0002Tema0009.Attributes["style"] = "color: green";
+
+                                            upMateria0002Tema0009.Update();
+
+                                            break;
+
+                                        case 10:
+
+                                            iMateria0002Tema0010.Attributes["style"] = "color: green";
+                                            iM002.Attributes["style"] = "color: green";
+                                            upMateria0002Tema0010.Update();
+                                            upMateria0002.Update();
+
+                                            break;
+                                    }
+                                }
+
+                                lblPuntuacion.Text = intCal.ToString();
+
+                                divDiagnostico.Visible = false;
+
+
+
+                                divPreguntas.Visible = false;
+                                usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                                var iMateriaf = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
+                                                 join b in mMateria.catMateriaTemaPreguntaRespuesta on a.MateriaTemaPreguntaRespuestaID equals b.MateriaTemaPreguntaRespuestaID
+                                                 join c in mMateria.catMateriaTemaPregunta on b.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                                                 join d in mMateria.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                                                 where a.TipoPreguntaID == 2
+                                                 where a.UsuarioID == usr_ID
+                                                 where d.MateriaTemaID == FiltroMateriaTemaID
+                                                 where d.MateriaID == FiltroMateriaID
+
+                                                 select new
+                                                 {
+                                                     c.MateriaTemaPregunta,
+                                                     b.MateriaTemaPreguntaRespuesta,
+                                                     b.Respuesta,
+                                                     b.Justificacion
+                                                 }
+                                               ).ToList();
+
+                                if (iMateriaf.Count != 0)
+                                {
+                                    gvResultados.DataSource = iMateriaf;
+                                    gvResultados.DataBind();
+                                    gvResultados.Visible = true;
+                                }
+
+                                divResultado.Visible = true;
+                                upResultado.Update();
+                                upPreguntas.Update();
+
+                                upTema.Update();
                             }
 
-                            if (strlbl == "lblRespuesta002")
-                            {
-                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-
-                            if (strlbl == "lblRespuesta003")
-                            {
-                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-
-                            if (strlbl == "lblRespuesta004")
-                            {
-                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
-                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
-                            }
-                            f1 += 1;
-
-                            if (iRespuesta.Count == 3)
-                            {
-                                radioR4.Visible = false;
-                            }
+                            Mensaje("Cuestionario Terminado");
                         }
+
                     }
-
-                    radioR1.Checked = false;
-                    radioR2.Checked = false;
-                    radioR3.Checked = false;
-                    radioR4.Checked = false;
-
-                    upPreguntas.Update();
                 }
             }
         }
@@ -1869,7 +1785,6 @@ namespace webAI_UNAM
             cardUsuario.Visible = true;
             upUsuario.Update();
             upContainer.Update();
-            
         }
 
         private void SControlUsurio()
@@ -1906,8 +1821,8 @@ namespace webAI_UNAM
             divBuscaUsuario.Visible = true;
             SControlUsurio();
             //FiltroUP = "pnl_usr";
-
         }
+
         private void limpiaRegistroUsuario()
         {
             sComposUsuario();
@@ -1921,6 +1836,7 @@ namespace webAI_UNAM
             iEmailPersonalUsuario.Value = string.Empty;
             iEmailCorporativoUsuario.Value = string.Empty;
         }
+
         private void sComposUsuario()
         {
             sTipoUsuario.Items.Clear();
@@ -1959,9 +1875,8 @@ namespace webAI_UNAM
 
                 sGeneroUsuario.Items.Insert(0, new ListItem("Género", string.Empty));
             }
-
-           
         }
-        #endregion
+
+        #endregion ControlUsuarios
     }
 }

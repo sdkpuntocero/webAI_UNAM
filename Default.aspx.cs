@@ -48,9 +48,10 @@ namespace webAI_UNAM
                     {
                         if (strClave == strValClave)
                         {
-                            //HttpCookie usr_cookie = new HttpCookie("usr_cookie", usrf_ID.ToString());
-                            //Response.Cookies.Add(usr_cookie);
-                            Session["UsuarioFirmadoID"] = GuidUsario;
+                            HttpCookie usr_cookie = new HttpCookie("usr_cookie", GuidUsario.ToString());
+                            usr_cookie.Expires = DateTime.Now.AddDays(1);
+                            Response.Cookies.Add(usr_cookie);
+                            //Session["UsuarioFirmadoID"] = GuidUsario;
                             Response.Redirect("Panel.aspx");
                         }
                         else
