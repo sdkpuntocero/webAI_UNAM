@@ -375,6 +375,122 @@
                                     </li>
                                 </ContentTemplate>
                             </asp:UpdatePanel>
+                               <asp:UpdatePanel ID="upMateria0010" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <li class="sidebar-dropdown">
+
+                                        <asp:LinkButton ID="lkbMateria0010" runat="server" href="#">
+                                            <i class="fas fa-spell-check" runat="server" id="iMateria010"></i>
+                                            <span>
+                                                <asp:Label ID="lblMateria010" runat="server"></asp:Label></span>
+                                        </asp:LinkButton>
+
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0001" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0001" runat="server" OnClick="lkbMateria0010Tema0001_Click">
+                                                                <span>Tema 1 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0001" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0002" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0002" runat="server" OnClick="lkbMateria0010Tema0002_Click">
+                                                                <span>Tema 2 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0002" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0003" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0003" runat="server" OnClick="lkbMateria0010Tema0003_Click">
+                                                                <span>Tema 3 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0003" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0004" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0004" runat="server" OnClick="lkbMateria0010Tema0004_Click">
+                                                                <span>Tema 4 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0004" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0005" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0005" runat="server" OnClick="lkbMateria0010Tema0005_Click">
+                                                                <span>Tema 5 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0005" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0006" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0006" runat="server" OnClick="lkbMateria0010Tema0006_Click">
+                                                                <span>Tema 6 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0006" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0007" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0007" runat="server" OnClick="lkbMateria0010Tema0007_Click">
+                                                                <span>Tema 7 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0007" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0008" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0008" runat="server" OnClick="lkbMateria0010Tema0008_Click">
+                                                                <span>Tema 8 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0008" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0009" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0009" runat="server" OnClick="lkbMateria0010Tema0009_Click">
+                                                                <span>Tema 9 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0009" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="upMateria0010Tema0010" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0010" runat="server" OnClick="lkbMateria0010Tema0010_Click">
+                                                                <span>Tema 10 <i class="fa fa-circle" runat="server" id="iMateria0010Tema0010" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                                    <ContentTemplate>
+                                                        <li>
+                                                            <asp:LinkButton ID="lkbMateria0010Tema0011" runat="server" OnClick="lkbMateria0010Tema0011_Click">
+                                                                <span>Tema 11 <i class="fa fa-circle" runat="server" id="i2" style="color: #dc3545"></i></span>
+                                                            </asp:LinkButton>
+                                                        </li>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                             <asp:UpdatePanel ID="upDatos" runat="server" UpdateMode="Conditional">
                                 <ContentTemplate>
                                     <li class="sidebar-dropdown">

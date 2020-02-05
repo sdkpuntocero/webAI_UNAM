@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using System.Web;
-using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -17,7 +15,6 @@ namespace webAI_UNAM
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
             try
             {
                 if (!IsPostBack)
@@ -108,6 +105,48 @@ namespace webAI_UNAM
 
                             break;
 
+                        case 10:
+
+                            lblMateria010.Text = fModelo.Materia;
+
+                            upMateria0010.Update();
+
+                            using (imDesarrolloEntities mRespuestas = new imDesarrolloEntities())
+                            {
+                                var iRespuestas = (from i_u in mRespuestas.tblPreguntasRespuestas(2, usr_ID)
+                                                   select i_u).ToList();
+
+                                if (iRespuestas.Count == 0)
+                                {
+                                    Materia001TD = 0;
+                                    Materia001TC = 0;
+                                }
+                                else
+                                {
+                                    Materia001TD = iRespuestas[0].DiagnoticoP.Value;
+                                    Materia001TC = iRespuestas[0].CuestionarioP.Value;
+
+                                    AC = AC + Materia001TC;
+                                }
+                            }
+                            Materia001D = "width: " + Materia001TD.ToString() + "%";
+
+                            divMat002D.Attributes["style"] = Materia001D;
+                            lblMat002D.Text = Materia001D.Replace("width: ", "");
+
+                            Materia001C = "width: " + Materia001TC.ToString() + "%";
+
+                            divMat002C.Attributes["style"] = Materia001C;
+                            lblMat002C.Text = Materia001C.Replace("width: ", "");
+
+                            if (EstatusMAteria == 10)
+                            {
+                                iM002.Attributes["style"] = "color: green";
+                                upMateria0002.Update();
+                            }
+
+                            break;
+
                         default:
                             break;
                     }
@@ -124,7 +163,6 @@ namespace webAI_UNAM
             try
             {
                 usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
-
 
                 using (db_imEntities m_usuario = new db_imEntities())
                 {
@@ -187,7 +225,7 @@ namespace webAI_UNAM
             Session["OMatID"] = 1;
 
             FiltroMateriaID = (int)(Session["FMatID"]);
-            OrdenMateriaTemaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -202,41 +240,144 @@ namespace webAI_UNAM
 
                 FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            }
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema1/VideoClase0001.mp4";
+                               select a
+                                   ).ToList();
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema1/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                lblPuntuacion.Text = "0";
+                    lblPuntuacion.Text = "0";
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0001.Attributes["style"] = "color: green";
-                upMateria0002Tema0001.Update();
+                    btnDiagnostico.Visible = true;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema1/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema1/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -244,9 +385,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 2;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 2;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -257,43 +400,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema2/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema2/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
+                    lblPuntuacion.Text = "0";
 
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0002.Attributes["style"] = "color: green";
-                upMateria0002Tema0002.Update();
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema2/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema2/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -301,9 +552,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 3;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 3;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -314,43 +567,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema3/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tem3/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
+                    lblPuntuacion.Text = "0";
 
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0003.Attributes["style"] = "color: green";
-                upMateria0002Tema0003.Update();
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema3/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema3/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -358,9 +719,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 4;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 4;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -371,42 +734,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema4/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema4/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0004.Attributes["style"] = "color: green";
-                upMateria0002Tema0004.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema4/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema4/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -414,9 +886,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 5;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 5;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -427,42 +901,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema5/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema5/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0005.Attributes["style"] = "color: green";
-                upMateria0002Tema0005.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema5/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema5/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -470,9 +1053,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 6;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 6;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -483,42 +1068,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema6/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema6/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0006.Attributes["style"] = "color: green";
-                upMateria0002Tema0006.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema6/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema6/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -526,9 +1220,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 7;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 7;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -539,42 +1235,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema7/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema7/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0007.Attributes["style"] = "color: green";
-                upMateria0002Tema0007.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema7/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema7/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -582,9 +1387,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 8;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 8;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -595,42 +1402,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema8/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema8/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0008.Attributes["style"] = "color: green";
-                upMateria0002Tema0008.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema8/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema8/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -638,9 +1554,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 9;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 9;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -651,42 +1569,151 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema9/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema9/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0009.Attributes["style"] = "color: green";
-                upMateria0002Tema0009.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema9/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema9/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
@@ -694,9 +1721,11 @@ namespace webAI_UNAM
         {
             divContainer.Visible = false;
             upContainer.Update();
+            Session["FMatID"] = 2;
+            Session["OMatID"] = 10;
 
-            FiltroMateriaID = 2;
-            OrdenMateriaTemaID = 10;
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
 
             using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
             {
@@ -707,46 +1736,1996 @@ namespace webAI_UNAM
                                    ).FirstOrDefault();
 
                 lblTema.Text = fModelo.MateriaTema;
-                FiltroMateriaTemaID = fModelo.MateriaTemaID;
-            }
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
 
-            play_video.Visible = true;
-            play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema10/VideoClase0001.mp4";
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
 
-            if (EstatusTemas(FiltroMateriaID, OrdenMateriaTemaID))
-            {
-                divTema.Visible = true; divContainer.Visible = false;
-                lblPuntDiag.Text = "0";
-                divEbook.Visible = false;
-                divResultado.Visible = false;
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
 
-                divComentario.Visible = false;
-                comment1.Value = string.Empty;
+                               select a
+                                   ).ToList();
 
-                lblPuntuacion.Text = "0";
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema10/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
 
-                btnDiagnostico.Visible = true;
-                upResultado.Update();
-                upTema.Update();
-            }
-            else
-            {
-                divEbook.Visible = false;
-                upComentario.Update();
-                divResultado.Visible = false;
-                upResultado.Update();
-                upResumen.Update();
-                divComentario.Visible = false;
-                divTema.Visible = false;
-                upTema.Update();
-                divContainer.Visible = true;
-                upContainer.Update();
-                iMateria0002Tema0010.Attributes["style"] = "color: green";
-                upMateria0002Tema0010.Update();
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Espanol/Tema10/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Espanol/Tema10/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
             }
         }
 
         #endregion Materia0002
+
+        #region Materia0010
+
+        protected void lkbMateria0010Tema0001_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 1;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema1/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema1/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema1/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0002_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 2;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema2/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema2/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema2/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0003_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 3;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema3/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema3/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema3/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0004_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 4;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema4/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema4/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema4/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0005_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 5;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema5/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema5/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema5/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0006_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 6;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema6/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema6/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema6/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0007_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 7;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema7/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema7/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema7/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0008_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 8;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema8/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema8/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema8/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0009_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 9;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema9/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema9/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema9/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0010_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 10;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema10/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema10/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema10/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        protected void lkbMateria0010Tema0011_Click(object sender, EventArgs e)
+        {
+            divContainer.Visible = false;
+            upContainer.Update();
+            Session["FMatID"] = 10;
+            Session["OMatID"] = 11;
+
+            FiltroMateriaID = (int)(Session["FMatID"]);
+            OrdenMateriaTemaID = (int)(Session["OMatID"]);
+
+            using (imDesarrolloEntities Modelo = new imDesarrolloEntities())
+            {
+                var fModelo = (from a in Modelo.catMateriaTema
+                               where a.MateriaID == FiltroMateriaID
+                               where a.MateriaOrdenID == OrdenMateriaTemaID
+                               select a
+                                   ).FirstOrDefault();
+
+                lblTema.Text = fModelo.MateriaTema;
+                Session["FMatTemID"] = fModelo.MateriaTemaID;
+
+                FiltroMateriaTemaID = (int)(Session["FMatTemID"]);
+
+                var iModelo = (from a in Modelo.catMateriaTemaPreguntaRespuestaBitacora
+                               join c in Modelo.catMateriaTemaPregunta on a.MateriaTemaPreguntaID equals c.MateriaTemaPreguntaID
+                               join d in Modelo.catMateriaTema on c.MateriaTemaID equals d.MateriaTemaID
+                               where d.MateriaID == FiltroMateriaID
+                               where d.MateriaTemaID == FiltroMateriaTemaID
+                               where a.UsuarioID == usr_ID
+
+                               select a
+                                   ).ToList();
+
+                if (iModelo.Count == 0)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema11/VideoClase0001.mp4";
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = false;
+                    divResultado.Visible = false;
+                    divDiagnostico.Visible = false;
+                    divPreguntas.Visible = false;
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = true;
+                    upPreguntas.Update();
+                    upDiagnostico.Update();
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count <= 5)
+                {
+                    play_video.Visible = true;
+                    play_video.Attributes["src"] = "Material/Universidad/Quimica/Tema11/VideoClase0001.mp4";
+                    iframeTema.Attributes["src"] = "Material/Universidad/Quimica/Tema11/index.html";
+                    iMateria0002Tema0001.Attributes["style"] = "color: yellow";
+
+                    upMateria0001Tema0001.Update();
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
+                    divResultado.Visible = false;
+                    using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
+                    {
+                        divComentario.Visible = false;
+
+                        divPreguntas.Visible = true;
+
+                        dtPreguntasCuestionario = GetTable(FiltroMateriaID, FiltroMateriaTemaID, 2);
+
+                        DataRow[] foundRows;
+                        foundRows = dtPreguntasCuestionario.Select("NuevoID = 1");
+
+                        FiltroPreguntaIDc = int.Parse(foundRows[0][2].ToString());
+
+                        lblPregunta.Text = foundRows[0][1].ToString();
+
+                        radioR1.Checked = false;
+                        radioR2.Checked = false;
+                        radioR3.Checked = false;
+                        radioR4.Checked = false;
+
+                        var iRespuestaf = (from c in mMateria.RespuestasSP(FiltroMateriaID, FiltroMateriaTemaID, FiltroPreguntaIDc)
+                                           select c).ToList();
+
+                        int f1 = 1;
+                        foreach (var iResp in iRespuestaf)
+                        {
+                            string strlbl = "lblRespuesta00" + f1;
+
+                            if (strlbl == "lblRespuesta001")
+                            {
+                                lblRespuesta001.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp001.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta002")
+                            {
+                                lblRespuesta002.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp002.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta003")
+                            {
+                                lblRespuesta003.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp003.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+
+                            if (strlbl == "lblRespuesta004")
+                            {
+                                lblRespuesta004.Text = iResp.MateriaTemaPreguntaRespuesta;
+                                lblResp004.Text = iResp.MateriaTemaPreguntaRespuestaID.ToString();
+                            }
+                            f1 += 1;
+                        }
+                        upPreguntas.Update();
+                    }
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count >= 5 && iModelo.Count <= 10)
+                {
+                    divTema.Visible = true; divContainer.Visible = false;
+                    lblPuntDiag.Text = "0";
+                    divEbook.Visible = true;
+                    divResultado.Visible = false;
+
+                    divComentario.Visible = false;
+                    comment1.Value = string.Empty;
+
+                    lblPuntuacion.Text = "0";
+
+                    btnDiagnostico.Visible = false;
+                    upResultado.Update();
+                    upTema.Update();
+                }
+                else if (iModelo.Count > 10)
+                {
+                    divEbook.Visible = false;
+                    upComentario.Update();
+                    divResultado.Visible = false;
+                    upResultado.Update();
+                    upResumen.Update();
+                    divComentario.Visible = false;
+                    divTema.Visible = false;
+                    upTema.Update();
+                    divContainer.Visible = true;
+                    upContainer.Update();
+                    iMateria0002Tema0001.Attributes["style"] = "color: green";
+                    upMateria0002Tema0001.Update();
+                }
+            }
+        }
+
+        #endregion Materia0010
 
         #region Funciones
 
@@ -1378,7 +4357,6 @@ namespace webAI_UNAM
                                       ).ToList();
                     if (iBitacora.Count != dtPreguntasCuestionario.Rows.Count)
                     {
-
                         if (radioR1.Checked == true || radioR2.Checked == true || radioR3.Checked == true || radioR4.Checked == true)
                         {
                             int intRespuesta = 0;
@@ -1443,8 +4421,6 @@ namespace webAI_UNAM
 
                                     i_registro.SaveChanges();
                                 }
-
-
                             }
                         }
 
@@ -1460,10 +4436,7 @@ namespace webAI_UNAM
 
                         try
                         {
-
                             filtro = "NuevoID = " + FiltroPreguntaTest.ToString();
-
-
 
                             DataRow[] foundRows;
                             foundRows = dtPreguntasCuestionario.Select(filtro);
@@ -1519,7 +4492,6 @@ namespace webAI_UNAM
                         }
                         catch (Exception)
                         {
-
                             usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
                             using (imDesarrolloEntities mMateria = new imDesarrolloEntities())
                             {
@@ -1713,8 +4685,6 @@ namespace webAI_UNAM
 
                                 divDiagnostico.Visible = false;
 
-
-
                                 divPreguntas.Visible = false;
                                 usr_ID = Guid.Parse(Request.Cookies["usr_cookie"].Value);
                                 var iMateriaf = (from a in mMateria.catMateriaTemaPreguntaRespuestaBitacora
@@ -1751,7 +4721,6 @@ namespace webAI_UNAM
 
                             Mensaje("Cuestionario Terminado");
                         }
-
                     }
                 }
             }
